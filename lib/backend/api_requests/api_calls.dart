@@ -33,10 +33,11 @@ class AnalyzeInvoiceImageCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AnalyzeInvoiceImage',
       apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDAT2Ches-vkZRHU9W7Q7R-H3XIgsZhY04',
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
+        'x-goog-api-key': 'AIzaSyCFfi-RA-7znp5tDrk16uW0dPsWIetzH4M',
       },
       params: {},
       body: ffApiRequestBody,
@@ -76,10 +77,11 @@ class AnalyzeInvoicePDFCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AnalyzeInvoicePDF',
       apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDAT2Ches-vkZRHU9W7Q7R-H3XIgsZhY04',
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
+        'x-goog-api-key': 'AIzaSyANpYzrNcoT3V_Jp2_9Dj9uDeSflqKNwH4',
       },
       params: {},
       body: ffApiRequestBody,
@@ -109,7 +111,7 @@ class AnalyzePrescriptionCall {
         {
           "inline_data": {
             "mime_type": "image/jpeg",
-            "data": "\${base64Image}"
+            "data": "${escapeStringForJson(base64Image)}"
           }
         }
       ]
@@ -119,10 +121,11 @@ class AnalyzePrescriptionCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AnalyzePrescription',
       apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDAT2Ches-vkZRHU9W7Q7R-H3XIgsZhY04',
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
+        'x-goog-api-key': 'AIzaSyANpYzrNcoT3V_Jp2_9Dj9uDeSflqKNwH4',
       },
       params: {},
       body: ffApiRequestBody,
@@ -156,14 +159,34 @@ class AnalyzeTextCall {
     return ApiManager.instance.makeApiCall(
       callName: 'AnalyzeText',
       apiUrl:
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyDAT2Ches-vkZRHU9W7Q7R-H3XIgsZhY04',
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent',
       callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
+        'x-goog-api-key': 'AIzaSyANpYzrNcoT3V_Jp2_9Dj9uDeSflqKNwH4',
       },
       params: {},
       body: ffApiRequestBody,
       bodyType: BodyType.JSON,
+      returnBody: true,
+      encodeBodyUtf8: false,
+      decodeUtf8: false,
+      cache: false,
+      isStreamingApi: false,
+      alwaysAllowBody: false,
+    );
+  }
+}
+
+class TestAPICallCall {
+  static Future<ApiCallResponse> call() async {
+    return ApiManager.instance.makeApiCall(
+      callName: 'Test API Call',
+      apiUrl:
+          'https://generativelanguage.googleapis.com/v1beta/models?key=AIzaSyDAT2Ches-vkZRHU9W7Q7R-H3XIgsZhY04',
+      callType: ApiCallType.GET,
+      headers: {},
+      params: {},
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,

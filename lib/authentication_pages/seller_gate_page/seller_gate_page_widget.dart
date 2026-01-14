@@ -50,7 +50,7 @@ class _SellerGatePageWidgetState extends State<SellerGatePageWidget>
         if (_model.sellerStoreRecord?.reference != null) {
           context.goNamed(SellerDashboardWidget.routeName);
         } else {
-          context.goNamed(ShopRegistrationWidget.routeName);
+          context.goNamed(NewShopRegistrationWidget.routeName);
         }
       }
     });

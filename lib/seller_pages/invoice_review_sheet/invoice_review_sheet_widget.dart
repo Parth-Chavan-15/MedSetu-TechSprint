@@ -152,7 +152,7 @@ class _InvoiceReviewSheetWidgetState extends State<InvoiceReviewSheetWidget> {
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 25.0),
                 child: Builder(
                   builder: (context) {
-                    final invoiceItem = widget.itemsList!.toList();
+                    final invoiceItem = _model.editableList.toList();
 
                     return ListView.builder(
                       padding: EdgeInsets.zero,
@@ -418,6 +418,8 @@ class _InvoiceReviewSheetWidgetState extends State<InvoiceReviewSheetWidget> {
                       ),
                     );
                   }
+
+                  Navigator.pop(context);
 
                   safeSetState(() {});
                 },

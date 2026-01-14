@@ -76,16 +76,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
-      errorBuilder: (context, state) => appStateNotifier.loggedIn
-          ? SellerGatePageWidget()
-          : SellerAuthRegisterWidget(),
+      errorBuilder: (context, state) =>
+          appStateNotifier.loggedIn ? HomePageWidget() : HomePageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => appStateNotifier.loggedIn
-              ? SellerGatePageWidget()
-              : SellerAuthRegisterWidget(),
+          builder: (context, _) =>
+              appStateNotifier.loggedIn ? HomePageWidget() : HomePageWidget(),
         ),
         FFRoute(
           name: SellerDashboardWidget.routeName,
@@ -101,11 +99,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: BarcodeScannerWidget.routeName,
           path: BarcodeScannerWidget.routePath,
           builder: (context, params) => BarcodeScannerWidget(),
-        ),
-        FFRoute(
-          name: SafetyModalWidget.routeName,
-          path: SafetyModalWidget.routePath,
-          builder: (context, params) => SafetyModalWidget(),
         ),
         FFRoute(
           name: PatientSearchWidget.routeName,
@@ -161,11 +154,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SellerLoginWidget(),
         ),
         FFRoute(
-          name: ShopRegistrationWidget.routeName,
-          path: ShopRegistrationWidget.routePath,
-          builder: (context, params) => ShopRegistrationWidget(),
-        ),
-        FFRoute(
           name: SellerGatePageWidget.routeName,
           path: SellerGatePageWidget.routePath,
           builder: (context, params) => SellerGatePageWidget(),
@@ -174,6 +162,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SellerAuthRegisterWidget.routeName,
           path: SellerAuthRegisterWidget.routePath,
           builder: (context, params) => SellerAuthRegisterWidget(),
+        ),
+        FFRoute(
+          name: NewShopRegistrationWidget.routeName,
+          path: NewShopRegistrationWidget.routePath,
+          builder: (context, params) => NewShopRegistrationWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -344,7 +337,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/sellerAuthRegister';
+            return '/homePage';
           }
           return null;
         },
