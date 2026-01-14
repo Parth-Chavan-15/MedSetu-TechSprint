@@ -67,7 +67,7 @@ class _SellerLoginWidgetState extends State<SellerLoginWidget> {
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.goNamed(HomePageWidget.routeName);
             },
           ),
           actions: [],
@@ -582,7 +582,7 @@ class _SellerLoginWidgetState extends State<SellerLoginWidget> {
                                     child: FFButtonWidget(
                                       onPressed: () async {
                                         context.pushNamed(
-                                          ShopRegistrationWidget.routeName,
+                                          SellerAuthRegisterWidget.routeName,
                                           extra: <String, dynamic>{
                                             kTransitionInfoKey: TransitionInfo(
                                               hasTransition: true,
