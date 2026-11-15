@@ -1,484 +1,293 @@
 <div align="center">
 
-  <img src="assets/images/WhatsApp_Image_2026-01-14_at_20.38.53.jpeg" alt="MedSetu Logo" width="130" style="border-radius: 50%; box-shadow: 0 8px 24px rgba(0,0,0,0.18);" />
+  <img src="assets/images/WhatsApp_Image_2026-01-14_at_20.38.53.jpeg" alt="MedSetu Logo" width="120" style="border-radius: 50%;" />
 
-  # 💊 MedSetu (जन सेतु)
-  ### *Bridging the gap between doctor handwriting, affordable generic medicines, and real-time pharmacy inventory.*
-
-  **Built for the GDG VESIT TechSprint Hackathon**  
-  **Crafted by [Parth Chavan](https://github.com/Parth-Chavan-15)**
+  <h1 align="center">💊 MedSetu</h1>
 
   <p align="center">
-    <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white" alt="Flutter" /></a>
-    <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" /></a>
-    <a href="https://ai.google.dev"><img src="https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" /></a>
-    <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/Firebase-Firestore_%26_Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" /></a>
-    <a href="https://developers.google.com/maps"><img src="https://img.shields.io/badge/Google_Maps-Geo_Routing-4285F4?style=for-the-badge&logo=googlemaps&logoColor=white" alt="Google Maps" /></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge" alt="License" /></a>
+    <strong>Real-time pharmacy inventory discovery and handwritten prescription decoding for affordable generic medicines.</strong>
   </p>
 
   <p align="center">
-    <strong>MedSetu</strong> is a <b>Dual-Agent Healthcare Ecosystem</b> engineered to fix the critical "last-mile" failure of the <i>Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)</i>. It combines <b>zero-friction multimodal inventory ingestion</b> for local chemists with a <b>visual prescription AI decoder</b>, <b>bio-equivalent generic salt routing</b>, and <b>dynamic freshness verification</b> for patients.
+    <a href="https://flutter.dev"><img src="https://img.shields.io/badge/Flutter-3.x-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter" /></a>
+    <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=flat-square&logo=dart&logoColor=white" alt="Dart" /></a>
+    <a href="https://ai.google.dev"><img src="https://img.shields.io/badge/Google_Gemini-2.5_Flash-6A1B9A?style=flat-square&logo=google&logoColor=white" alt="Google Gemini" /></a>
+    <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/Firebase-Firestore_%26_Auth-FF8F00?style=flat-square&logo=firebase&logoColor=white" alt="Firebase" /></a>
   </p>
 
   <p align="center">
-    <a href="#-the-problem-the-ghost-stock-reality">The Problem</a> •
-    <a href="#-the-medsetu-dual-agent-solution">The Solution</a> •
-    <a href="#-key-highlights">Key Features</a> •
-    <a href="#-system-architecture">Architecture</a> •
-    <a href="#-algorithmic-intelligence-priority-ranking">Ranking Engine</a> •
-    <a href="#-medical-liability--safety-protocols">Safety Protocols</a> •
-    <a href="#-firestore-database-schema">Data Model</a> •
-    <a href="#-quick-start">Quick Start</a>
+    <a href="#-the-problem--the-solution">Problem & Solution</a> •
+    <a href="#-see-it-in-action">See It in Action</a> •
+    <a href="#-key-features">Key Features</a> •
+    <a href="#-how-it-works">How It Works</a> •
+    <a href="#-run-locally">Run Locally</a> •
+    <a href="#-tech-stack">Tech Stack</a> •
+    <a href="#-project-structure">Project Structure</a>
   </p>
 
 </div>
 
 ---
 
-## 🚨 The Problem: The "Ghost Stock" Reality
+## 🔍 The Problem & The Solution
 
-Under the Government of India’s **Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)**, authorized Kendras provide high-quality generic medicines at **50% to 90% cheaper rates** than commercial brands.
+Government generic pharmacy initiatives such as the Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP) offer high-quality medicines at a fraction of commercial prices. Despite this, patients across India continue to overpay for expensive branded drugs or travel across town only to encounter empty pharmacy shelves—a problem known as "ghost stock." Doctors write shorthand brand names that patients cannot decipher, while busy pharmacy owners lack the time to manually update central inventory software.
 
-Despite this initiative, millions of citizens still buy costly branded drugs out-of-pocket due to three persistent bottlenecks:
+MedSetu bridges this communication gap. Pharmacy owners update their live shelves in seconds through camera invoice snapshots, distributor PDFs, voice dictation, or barcode scans. Patients take a photo of their handwritten prescription to identify prescribed drugs, uncover bio-equivalent generic salts with direct price comparisons, and find nearby pharmacies that verified physical stock within the last 24 hours.
 
-```
-[Messy Doctor Prescription] ────❌ Illegible Brand Names────► [Patient (Unaware of Generic Salt)]
-                                                                           │
-                                                                   Travels Across Town
-                                                                           ▼
-[Central Database: "In Stock"] ──❌ Out of Sync with Shelves──► [Physical Store: "Ghost Stock" (Empty)]
-```
-
-1. **The "Ghost Stock" Paradox**: Government catalogs assume stores carry mandatory inventories. In reality, local pharmacy owners do not have the time or tools for cumbersome manual database entry. Shelves run out, while central directories report false availability.
-2. **The Handwriting & Salt-Name Barrier**: Prescriptions are written in doctor shorthand with commercial brand names (e.g., *Augmentin 625*, *Dolo 650*). Patients have no easy way to translate them into generic chemical formulations (e.g., *Amoxicillin + Clavulanic Acid*, *Paracetamol 650mg*).
-3. **Wasted Journeys & Medical Compromise**: Patients travel miles to a Jan Aushadhi Kendra, only to discover the medicine is out of stock. Frustrated, they walk into a nearby commercial chemist and pay standard market prices.
-
----
-
-## 💡 The MedSetu Dual-Agent Solution
-
-MedSetu flips the paradigm from **passive central directories** to an **AI-powered Real-Time Data Pipeline**:
-
-| Challenge | Traditional Approach | The MedSetu Dual-Agent Pipeline |
+| Problem Area | Traditional Experience | MedSetu Experience |
 | :--- | :--- | :--- |
-| **Inventory Logging** | Manual typing into legacy desktop ERPs (rarely done). | **Zero-Click Multimodal Supply**: Camera invoice OCR, wholesale PDF parsing, voice dictation, and barcode scanning. |
-| **Prescription Reading** | Patients struggle to read shorthand brand names. | **Multimodal Vision OCR**: Gemini extracts medicine names directly from handwriting and matches generic salts. |
-| **Stock Accuracy** | Unverified catalog assumptions ("Ghost Stock"). | **Two-Tier Freshness Engine**: Distinguishes 🟢 **Verified Stock (<24h)** from 🟡 **Likely Stock (≥24h)**. |
-| **Dispensation Safety** | Unregulated app suggestions. | **Pharmacist Handshake**: Dynamic in-app verification token shifting substitution authority to licensed chemists. |
+| **Prescription Reading** | Patients struggle to read physician handwriting and brand shorthand. | Gemini Vision extracts brand and generic drug names directly from camera photos. |
+| **Generic Substitution** | Patients do not know which low-cost generic salt matches their brand. | Automatic salt mapping displays bio-equivalent generics and direct price savings in ₹. |
+| **Stock Accuracy** | Central directories report catalog availability while shelves sit empty. | Freshness scoring highlights 🟢 **Verified Stock (<24h)** vs 🟡 **Likely Stock (≥24h)**. |
+| **Inventory Logging** | Pharmacists face tedious item-by-item manual entry into desktop ERPs. | Four fast-restock modalities: distributor photo OCR, PDF bills, voice, and barcode scanning. |
+| **Dispensing Safety** | Unregulated app suggestions create patient uncertainty. | In-app **Pharmacist Card** prompts a licensed chemist to confirm substitution at the counter. |
 
 ---
 
-## ✨ Key Highlights
+## 🎬 See It in Action
 
-### 🏪 1. The Chemist Agent (Zero-Click Data Supply)
-Designed for busy pharmacy operators who have zero time for manual inventory logging.
+MedSetu tailors its interface to whichever role you select on launch:
 
-* **📸 Paper Invoice OCR Ingestion**: Snap a photo of a wholesale distributor's paper bill. Google Gemini 2.5 Flash Vision parses tabular rows into structured JSON (`name`, `qty`) in seconds.
-* **📄 Wholesale PDF Ingestion**: Directly upload digital distributor invoices (`.pdf`). Gemini extracts full medicine batches and quantities in a single tap.
-* **🎙️ Voice-to-Ledger Dictation**: Tap the microphone and speak naturally (e.g., *"Received 50 strips of Metformin 500mg and 20 bottles of Cetirizine"*). The NLP engine parses quantities and automatically corrects Indian pharmaceutical phonetic spellings.
-* **📦 Rapid Barcode Restocking**: Integrated camera barcode scanner (`flutter_barcode_scanner`) scans blister packs and medicine cartons, executing instant atomic `+1` inventory increments in Cloud Firestore.
-* **🧑‍💻 Human-in-the-Loop Review Sheet**: Prevents AI hallucinations from polluting records. Shopkeepers review, edit, or delete items on an interactive bottom sheet before committing updates to the live database.
+1. **Patient Discovery**:
+   - Tap **Find Medicines** from the home screen and acknowledge the pharmacist consultation reminder.
+   - Snap a picture of your doctor's prescription or type a medicine name.
+   - MedSetu runs multimodal analysis on the image and returns identified medicines:
+     ```json
+     {
+       "medicines": ["Dolo 650", "Pan-D"]
+     }
+     ```
+   - The results screen reveals matching Jan Aushadhi generic alternatives, displaying price comparisons side-by-side (for example, generic Paracetamol at ₹6.50 vs branded alternatives at ₹32.00).
+   - Nearby pharmacies appear ranked by stock freshness. Selecting a store displays the **Pharmacist Card** for counter verification, along with one-tap calling and route navigation.
+
+2. **Chemist Inventory Ingestion**:
+   - Tap **Manage Pharmacy** and sign in to access your pharmacy dashboard.
+   - Choose your restocking modality:
+     - **Scan Invoice**: Capture a photo of a distributor paper bill to parse medicine rows and quantities.
+     - **Upload PDF**: Select a wholesale digital invoice file for automated extraction.
+     - **Voice Mode**: Dictate received stock (e.g., *"Received 50 strips of Metformin 500mg"*).
+     - **Scan Medicine Box**: Point the camera at blister pack barcodes for immediate `+1` stock increments.
+   - Review and tweak quantities on the interactive bottom sheet before committing verified records to the cloud database.
 
 ---
 
-### 🧑‍🦳 2. The Patient Agent (Intelligent Demand & Discovery)
-Engineered for citizens and elderly patients who need fast, affordable generic substitutions.
+## ✨ Key Features
 
-* **👁️ Handwritten Prescription Decoder**: Upload a photo of a doctor's prescription. Gemini Vision OCR identifies brand and generic medications while filtering out handwriting artifacts, frequencies, and dosage noise.
-* **🔄 Automatic Salt Substitution & Price Comparison**: Cross-references prescribed brands against bio-equivalent Jan Aushadhi generic alternatives, showing transparent side-by-side price savings in ₹.
-* **🟢 Verified (<24h) vs. 🟡 Likely In-Stock Indicators**:
-  * 🟢 **Verified In-Stock**: Chemist restocked or verified the item via OCR, voice, or barcode within the last 24 hours.
-  * 🟡 **Likely In-Stock**: Baseline PMBJP catalog entry without recent chemist confirmation.
-* **🤝 The "Pharmacist Card" (Liability Shield)**: An in-app handover screen designed for counter presentation:
-  > *"Hello Pharmacist, please verify if [Generic Salt] is a valid substitute for [Prescribed Brand] prescribed here."*
-* **🗺️ Integrated Direction Preview & Direct Dialing**: Embedded route preview with one-tap deep links to native Google Maps navigation and direct phone calls to the chemist.
+- **Decipher messy doctor prescriptions without guesswork**: Upload a camera photo of handwritten prescriptions to extract medication names while filtering out dosage numbers and frequencies.
+- **Uncover low-cost generic substitutes without manual research**: Cross-reference prescribed commercial brands with bio-equivalent generic salts and view direct savings in ₹.
+- **Avoid wasted trips to empty shelves without making phone calls**: View nearby pharmacies ranked by physical stock freshness, clearly separating stock verified within 24 hours from older catalog listings.
+- **Restock inventory without manual typing**: Ingest medicine batches using paper invoice photos, wholesale PDFs, or natural voice dictation.
+- **Restock cartons instantly with hardware scanning**: Scan blister pack and medicine box barcodes with your device camera to log atomic quantity increments.
+- **Prevent AI data inaccuracies with human-in-the-loop validation**: Inspect and adjust AI-extracted invoice quantities on an interactive review sheet before writing to your store records.
+- **Support dispensing safety with the Pharmacist Card**: Present an in-app counter token to your local chemist to verify chemical bio-equivalence before purchasing Schedule H medicines.
 
 ---
 
-## 🏗️ System Architecture
+## ⚙️ How It Works
+
+MedSetu connects two synchronized workflows through Cloud Firestore and Google Gemini. On the supply side, pharmacists ingest physical inventory via invoice images, PDF bills, barcode scans, or voice dictation; Gemini structures these into verified stock items stamped with server timestamps. On the demand side, patients photograph prescriptions or search by name; Gemini extracts the drug names, the catalog identifies matching generic salts, and the ranking algorithm prioritizes pharmacies that verified stock within the past 24 hours.
 
 ```mermaid
-graph TD
-    %% Custom Styling
-    classDef chemist fill:#ECFDF5,stroke:#059669,stroke-width:2px,color:#064E3B;
-    classDef patient fill:#EFF6FF,stroke:#2563EB,stroke-width:2px,color:#1E3A8A;
-    classDef ai fill:#FAF5FF,stroke:#7C3AED,stroke-width:2px,color:#4C1D95;
-    classDef firestore fill:#FFFBEB,stroke:#D97706,stroke-width:2px,color:#78350F;
-    classDef output fill:#FDF2F8,stroke:#DB2777,stroke-width:2px,color:#831843;
+flowchart LR
+    P_IMG["📸 Rx Photo"] --> P_AI["🧠 Gemini Vision"]
+    P_AI --> P_SRCH["🔍 Generic Salt Match"]
+    P_SRCH --> ENGINE["⚡ Freshness Ranker"]
 
-    subgraph SellerFlow ["🏪 Chemist / Seller Ingestion Engine"]
-        S_BILL["Distributor Paper Bill"]:::chemist -->|Camera Capture| G_INV["Gemini 2.5 Flash Vision"]:::ai
-        S_PDF["Wholesale PDF Invoice"]:::chemist -->|File Picker| G_PDF["Gemini 2.5 Flash PDF Parser"]:::ai
-        S_VOICE["Spoken Restock Speech"]:::chemist -->|Voice Input Sheet| G_NLP["Gemini 2.5 Flash NLP"]:::ai
-        S_BC["Carton / Blister Barcode"]:::chemist -->|Hardware Scanner| BC_SCAN["Flutter Barcode Scanner"]:::chemist
+    S_INV["📄 Paper / PDF Bill"] --> S_AI["🧠 Gemini OCR"]
+    S_VOICE["🎙️ Voice Dictation"] --> S_AI
+    S_AI --> S_REV["✏️ Chemist Review"]
+    S_REV --> DB[("☁️ Cloud Firestore")]
 
-        G_INV --> IRS["Invoice Review Sheet<br><i>(Human-in-the-Loop)</i>"]:::chemist
-        G_PDF --> IRS
-        G_NLP --> IRS
-        BC_SCAN -->|Instant +1 Update| FS_INV
-        IRS -->|Chemist Approval| FS_INV[("Cloud Firestore<br><b>store_inventory</b>")]:::firestore
-    end
+    S_BC["📦 Barcode Scan"] --> DB
+    DB --> ENGINE
 
-    subgraph CoreEngine ["⚡ Hybrid Freshness & Catalog Pipeline"]
-        FS_MED[("Cloud Firestore<br><b>medicines master</b>")]:::firestore
-        FS_STORES[("Cloud Firestore<br><b>stores directory</b>")]:::firestore
-        
-        FS_INV -.->|Live Stock Overrides| RANK["Priority Ranking Engine<br><code>sortInventoryByPriority()</code>"]:::firestore
-        FS_MED -.->|Salt Matching| RANK
-        FS_STORES -.->|Location Coordinates| RANK
-    end
+    ENGINE --> OUT_UI["📍 Prioritized Stores<br/>🟢 &lt;24h vs 🟡 &ge;24h"]
+    OUT_UI --> OUT_CARD["🤝 Pharmacist Card"]
+    OUT_UI --> OUT_NAV["🗺️ Call & Navigate"]
 
-    subgraph PatientFlow ["🧑‍🦳 Patient / Demand Discovery Engine"]
-        P_RX["Doctor Handwritten Prescription"]:::patient -->|Camera / Upload| G_RX["Gemini 2.5 Flash Prescription Decoder"]:::ai
-        P_TXT["Manual Brand / Salt Search"]:::patient --> SEARCH["Fuzzy Matcher & Keyword Index"]:::patient
-        G_RX -->|Extracted Names| SEARCH
-        SEARCH -->|Salt Document References| RANK
+    classDef patient fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
+    classDef chemist fill:#E8F5E9,stroke:#1B5E20,color:#1B5E20,stroke-width:2px;
+    classDef ai fill:#F3E5F5,stroke:#6A1B9A,color:#4A148C,stroke-width:2px;
+    classDef engine fill:#FFF8E1,stroke:#F57F17,color:#E65100,stroke-width:2px;
+    classDef action fill:#E0F2F1,stroke:#00695C,color:#004D40,stroke-width:2px;
 
-        RANK --> UI_STORES["Nearby Store Results List<br>🟢 Verified (&lt;24h) | 🟡 Likely (&ge;24h)"]:::output
-        UI_STORES --> ACT_CARD["Pharmacist Handover Card"]:::output
-        UI_STORES --> ACT_CALL["One-Tap Phone Call"]:::output
-        UI_STORES --> ACT_MAP["Google Maps Route Navigation"]:::output
-    end
+    class P_IMG,P_SRCH patient;
+    class S_INV,S_VOICE,S_BC,S_REV chemist;
+    class P_AI,S_AI ai;
+    class DB,ENGINE engine;
+    class OUT_UI,OUT_CARD,OUT_NAV action;
+
+    linkStyle default stroke:#78909C,stroke-width:2px;
 ```
 
+<div align="center">
+  <sub>Dual-agent flow: supply-side rapid restocking meets demand-side prescription decoding and freshness-based pharmacy ranking.</sub>
+</div>
+
 <details>
-<summary><b>🔍 Click to expand detailed System Sequence Workflow</b></summary>
+<summary><b>🔍 View detailed request and verification sequence (click to expand)</b></summary>
 
 ```mermaid
 sequenceDiagram
     autonumber
     actor Chemist as 🏪 Pharmacist
     actor Patient as 🧑‍🦳 Patient
-    participant App as 📱 MedSetu Mobile App
-    participant Gemini as 🧠 Google Gemini 2.5 Flash
-    participant Firestore as 🗄️ Cloud Firestore
-    participant Maps as 🗺️ Google Maps / Phone
+    participant App as 📱 MedSetu App
+    participant Gemini as 🧠 Google Gemini
+    participant Firestore as ☁️ Cloud Firestore
+    participant Dialer as 📞 Phone / Maps
 
-    %% Chemist Ingestion
-    Note over Chemist, Firestore: Supply Side: Zero-Click Inventory Ingestion
-    Chemist->>App: Captures paper invoice / speaks restock / scans barcode
-    alt Invoice Image or PDF Upload
-        App->>Gemini: POST base64 encoded document + JSON schema prompt
-        Gemini-->>App: Raw JSON List [{name: "Paracetamol", qty: 50}]
-        App->>Chemist: Displays interactive Invoice Review Sheet
-        Chemist->>App: Confirms quantities & approves update
-        App->>Firestore: Upsert store_inventory with serverTimestamp() & status='Verified'
-    else Barcode Scan
-        App->>Firestore: Lookup medicines by barcode
-        Firestore-->>App: Matched medicine reference
-        App->>Firestore: Atomic increment qty_in_stock (+1) & update timestamp
-    end
+    Note over Chemist, Firestore: Chemist Stock Restocking
+    Chemist->>App: Captures invoice photo / PDF / speaks restock
+    App->>Gemini: Send base64 payload with JSON schema prompt
+    Gemini-->>App: Return structured list [{name, qty}]
+    App->>Chemist: Present editable Invoice Review Sheet
+    Chemist->>App: Verify quantities and approve
+    App->>Firestore: Upsert store_inventory (status='Verified', serverTimestamp)
 
-    %% Patient Discovery
-    Note over Patient, Maps: Demand Side: Prescription Decoding & Substitution
-    Patient->>App: Uploads handwritten doctor prescription
+    Note over Patient, Dialer: Patient Search & Discovery
+    Patient->>App: Upload prescription photo
     App->>Gemini: AnalyzePrescriptionCall(base64Image)
-    Gemini-->>App: {"medicines": ["Dolo 650", "Pan-D", "Metformin"]}
-    App->>Firestore: convertNamesToRefs() queries master catalog
-    Firestore-->>App: Linked Generic Salt References & PMBJP equivalents
-    App->>Firestore: Query store_inventory for matched medicines
-    App->>App: sortInventoryByPriority() (Freshness + Generic + Unit Price)
-    App-->>Patient: Displays prioritized stores with Smart Savings Alert (₹ saved)
-    Patient->>App: Selects nearby Kendra
-    App->>Patient: Displays Pharmacist Handover Token (Liability Shield)
-    Patient->>Maps: One-tap call chemist or launch Google Maps navigation
+    Gemini-->>App: Return medicines list ["Dolo 650", "Pan-D"]
+    App->>Firestore: Match brand names to generic salt equivalents
+    Firestore-->>App: Return matching medicines and store inventory
+    App->>App: Rank stores by freshness (<24h +100pts) and price
+    App-->>Patient: Display prioritized stores and ₹ savings
+    Patient->>App: Open store details
+    App-->>Patient: Show Pharmacist Card
+    Patient->>Dialer: One-tap call chemist or launch navigation
 ```
 
 </details>
 
 ---
 
-## ⚡ Algorithmic Intelligence: Priority Ranking
+## 🚀 Run Locally
 
-To eradicate ghost stock, MedSetu implements a **hybrid prioritization algorithm** (`sortInventoryByPriority`) that scores and sorts available stores based on physical data freshness:
-
-$$\text{Store Priority Score} = \Big(100 \times \mathbb{I}_{(\Delta t < 24\text{h})}\Big) + \Big(10 \times \mathbb{I}_{(\text{isGeneric} = \text{true})}\Big)$$
-
-$$\text{Tie-Breaker: } \min(\text{unit\_price})$$
-
-```dart
-List<StoreInventoryRecord> sortInventoryByPriority(List<StoreInventoryRecord> inputList) {
-  final now = DateTime.now();
-
-  inputList.sort((a, b) {
-    final bool aFresh = now.difference(a.lastUpdated ?? DateTime(1970)).inHours < 24;
-    final bool bFresh = now.difference(b.lastUpdated ?? DateTime(1970)).inHours < 24;
-
-    int scoreA = 0;
-    int scoreB = 0;
-
-    // 1. Freshness Tier (< 24 hours): +100 pts (Guarantee zero ghost-stock trips)
-    if (aFresh) scoreA += 100;
-    if (bFresh) scoreB += 100;
-
-    // 2. Generic Preference: +10 pts (PMBJP Kendra prioritization)
-    if (a.isGeneric == true) scoreA += 10;
-    if (b.isGeneric == true) scoreB += 10;
-
-    // 3. Score Evaluation
-    if (scoreA != scoreB) {
-      return scoreB.compareTo(scoreA); // Highest score first
-    }
-
-    // 4. Tie-Breaker: Lowest Unit Price First
-    final double aPrice = (a.unitPrice ?? 999999).toDouble();
-    final double bPrice = (b.unitPrice ?? 999999).toDouble();
-    return aPrice.compareTo(bPrice);
-  });
-
-  return inputList;
-}
-```
-
-### Visual Freshness Indicators (`getStatusColor`)
-
-| Badge | Status | Condition | Meaning |
-| :---: | :--- | :--- | :--- |
-| <img src="https://via.placeholder.com/15/4CAF50/000000?text=+" alt="Green" /> `🟢` | **Verified In-Stock** | Last updated `< 24 hours` | Physical stock confirmed via invoice OCR, voice, or barcode today. Zero ghost-stock risk. |
-| <img src="https://via.placeholder.com/15/FFC107/000000?text=+" alt="Amber" /> `🟡` | **Likely In-Stock** | Last updated `≥ 24 hours` or catalog default | Expected PMBJP baseline stock; patient is advised to call before visiting. |
-
----
-
-## 🛡️ Medical Liability & Safety Protocols
-
-> [!IMPORTANT]
-> **MedSetu is an informational bridge, not a prescribing medical entity.**  
-> Indian pharmaceutical regulations strictly require prescription-only medicines (Schedule H/H1) to be dispensed under the direct supervision of a registered pharmacist.
-
-MedSetu implements **three defense-in-depth safety layers**:
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                       3-TIER MEDICAL SAFETY MATRIX                      │
-├───────────────────────────┬─────────────────────────────────────────────┤
-│ 1. Mandatory Gate Modal   │ Explicit user disclaimer on first launch    │
-│                           │ acknowledging pharmacist confirmation.       │
-├───────────────────────────┼─────────────────────────────────────────────┤
-│ 2. The Pharmacist Card    │ In-app counter token presenting substitute   │
-│                           │ generic salt for licensed pharmacist check. │
-├───────────────────────────┼─────────────────────────────────────────────┤
-│ 3. Human-in-the-Loop OCR  │ Prevents raw AI vision extraction from      │
-│                           │ corrupting stock without chemist sign-off.   │
-└───────────────────────────┴─────────────────────────────────────────────┘
-```
-
-1. **Mandatory Launch Disclaimer**: Users must explicitly acknowledge:  
-   `"Always verify medicines with a registered Pharmacist before purchase."`
-2. **The Counter Handshake Card**: Before navigation, the app provides a designated handover token for the chemist:  
-   `"Hello Pharmacist, please verify if [Generic Salt] is a valid substitute for [Prescribed Brand] prescribed here."`
-3. **Chemist Review Gate**: OCR and Voice extractions are never written directly to Firestore; they populate an interactive editable sheet requiring human validation.
-
----
-
-## 🗄️ Firestore Database Schema
-
-<details open>
-<summary><b>📂 Click to expand / collapse Database Schema details</b></summary>
-
-### 1. `medicines` Collection
-Master catalog linking commercial brand names to generic formulations.
-
-| Field Name | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `brand_name` | `String` | Commercial pharmaceutical brand name | `"Dolo 650"` |
-| `generic_name` | `String` | Bio-equivalent active chemical formulation | `"Paracetamol 650mg"` |
-| `is_generic` | `Boolean` | Flag indicating government generic formulation | `true` |
-| `generic_source_ref` | `DocumentReference` | Reference to parent generic salt document | `/medicines/generic_pcm` |
-| `std_price` | `Double` | Standard open-market MRP | `32.0` |
-| `barcode` | `String` | EAN / UPC package identifier | `"8901234567890"` |
-| `search_keywords` | `String` | Normalized string for prefix & substring search | `"dolo paracetamol 650"` |
-
----
-
-### 2. `stores` Collection
-Registered pharmacies and Jan Aushadhi Kendras.
-
-| Field Name | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `store_name` | `String` | Name of the pharmacy or Kendra | `"Pradhan Mantri Jan Aushadhi Kendra #104"` |
-| `owner_uid` | `String` | Firebase Auth UID of the verified shopkeeper | `"uid_chemist_abc123"` |
-| `license_number` | `String` | State Drug Authority pharmacy license number | `"DL-MH-102938"` |
-| `phone_number` | `String` | Contact number for one-tap patient calling | `"+919876543210"` |
-| `location` | `LatLng` | Geographic coordinates for distance & routing | `19.0760, 72.8777` |
-| `is_generic_store` | `Boolean` | True if authorized PMBJP outlet | `true` |
-| `created_at` | `DateTime` | Store profile creation timestamp | `2026-01-14T18:00:00Z` |
-
----
-
-### 3. `store_inventory` Collection
-The real-time link between physical pharmacy branches and medicine availability.
-
-| Field Name | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `store_ref` | `DocumentReference` | Pointer to the parent `stores` document | `/stores/kendra_104` |
-| `medicine_id` | `DocumentReference` | Pointer to the `medicines` catalog document | `/medicines/dolo_650` |
-| `qty_in_stock` | `Integer` | Verified physical unit quantity on shelves | `45` |
-| `unit_price` | `Double` | Store-level selling price (₹) | `6.50` |
-| `status` | `String` | Verification status (`"Verified"` vs `"Likely"`) | `"Verified"` |
-| `is_generic` | `Boolean` | Cached generic flag for low-cost ranking | `true` |
-| `last_updated` | `DateTime` | Timestamp used for the `< 24h` freshness check | Server Timestamp |
-
----
-
-### 4. `users` Collection
-User profiles for shopkeepers and patients.
-
-| Field Name | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `uid` | `String` | Firebase Authentication UID | `"auth_usr_9988"` |
-| `display_name` | `String` | Full name of user or pharmacist | `"Parth Chavan"` |
-| `email` | `String` | Primary account email address | `"parth@example.com"` |
-| `phone_number` | `String` | Registered mobile contact | `"+919876543210"` |
-| `created_time` | `DateTime` | Account registration timestamp | `2026-01-14T12:00:00Z` |
-
-</details>
-
----
-
-## 🛠️ Tech Stack & Dependencies
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           MEDSETU TECH STACK                            │
-├───────────────────────┬─────────────────────────────────────────────────┤
-│ Core Framework        │ Flutter 3.x (Dart 3.x)                          │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ UI & State Management │ FlutterFlow, Provider, Google Fonts (Poppins,   │
-│                       │ Inter), Flutter Animate                         │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ AI & Multimodal Vision│ Google Gemini 2.5 Flash API                     │
-│                       │ (google_generative_ai, custom REST pipelines)   │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Backend & Database    │ Google Cloud Firestore, Firebase Storage        │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Authentication        │ Firebase Auth (Email/Password, Phone OTP)       │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Hardware & Scanning   │ flutter_barcode_scanner, image_picker,          │
-│                       │ file_picker (PDF wholesale bills)               │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Geo & Communication   │ geolocator, Google Maps API, url_launcher       │
-└───────────────────────┴─────────────────────────────────────────────────┘
-```
-
----
-
-## 🚦 Quick Start
-
-Follow these steps to run MedSetu locally on your development machine.
+Follow these steps to run MedSetu on your development machine or mobile device.
 
 ### 1. Prerequisites
-Ensure you have the following installed:
-* [Flutter SDK](https://docs.flutter.dev/get-started/install) (`>= 3.0.0 < 4.0.0`)
-* [Dart SDK](https://dart.dev/get-dart) (`>= 3.0.0`)
-* Android Studio (with Android SDK & Emulator) or Xcode (macOS)
-* A [Firebase Project](https://console.firebase.google.com/) with Firestore & Authentication enabled
-* A [Google AI Studio API Key](https://aistudio.google.com/) for Gemini 2.5 Flash
+
+Ensure you have the following installed with versions matching the repository requirements:
+
+- **Flutter SDK**: `3.x` (Dart SDK `>= 3.0.0 < 4.0.0` from [flutter.dev](https://docs.flutter.dev/get-started/install))
+- **Android SDK**: Compile SDK `35`, Min SDK `23`, Target SDK `35` (configured via Android Studio) or Xcode for iOS
+- **Node.js**: `20.x` (required only if deploying or running Firebase Cloud Functions locally)
 
 ### 2. Clone the Repository
+
 ```bash
 git clone https://github.com/Parth-Chavan-15/MedSetu-TechSprint.git
 cd MedSetu-TechSprint
 ```
 
-### 3. Configure Firebase
-Download and place the platform configuration files into the project:
-* **Android**: Download `google-services.json` from Firebase Console and place it at:
-  ```
-  android/app/google-services.json
-  ```
-* **iOS** (if building for Apple platforms): Download `GoogleService-Info.plist` and place it at:
-  ```
-  ios/Runner/GoogleService-Info.plist
-  ```
+### 3. Install Dependencies
 
-### 4. Configure API Keys
-The multimodal vision pipelines call Google Gemini 2.5 Flash. Ensure your Gemini API key is configured in `lib/backend/gemini/gemini.dart` and `lib/backend/api_requests/api_calls.dart` or injected via environment variables:
+Install all Flutter and Dart package dependencies defined in the project:
 
 ```bash
-# Verify API connection using the built-in test suite
 flutter pub get
 ```
 
-> [!TIP]
-> To configure location simulation on Android Emulators:
-> Open Emulator Extended Controls (`...`) &rarr; **Location** &rarr; Set Latitude: `19.0760`, Longitude: `72.8777` (Mumbai) to test proximity routing with seed stores.
+### 4. Configure Environment & API Services
 
-### 5. Install Dependencies & Launch
+MedSetu relies on Google Gemini for multimodal AI extraction and Firebase for database storage and authentication.
+
+| Configuration Item | What It Is For | Where Used in Code | Required | Where to Obtain |
+| :--- | :--- | :--- | :---: | :--- |
+| **Gemini API Key** | Powers prescription OCR, invoice document parsing, and voice NLP. | `lib/backend/gemini/gemini.dart`<br/>`lib/backend/api_requests/api_calls.dart` | Yes | [Google AI Studio](https://aistudio.google.com/) |
+| **`google-services.json`** | Connects Android builds to Firebase Firestore and Authentication. | `android/app/google-services.json` | Yes (Android) | [Firebase Console](https://console.firebase.google.com/) |
+| **`GoogleService-Info.plist`** | Connects iOS builds to Firebase services. | `ios/Runner/GoogleService-Info.plist` | Yes (iOS) | [Firebase Console](https://console.firebase.google.com/) |
+
+> [!IMPORTANT]
+> Keep your private API keys secure. Never commit personal keys or production credentials to public version control.
+
+### 5. Build Preparation
+
+Perform a clean build to ensure all generated platform channels and bindings resolve:
+
 ```bash
-# Clean cached packages
 flutter clean
-
-# Fetch all pub packages
 flutter pub get
+```
 
-# Run on connected physical device or emulator
+### 6. Start the Application
+
+Launch the application on an attached physical device, emulator, or web browser:
+
+```bash
+# Run on default connected device or emulator
 flutter run
 
-# Or run on Chrome Web
+# Or run in Google Chrome
 flutter run -d chrome
 ```
 
+### 7. What Success Looks Like
+
+When the application boots successfully, you will see the MedSetu welcome screen featuring the circular MedSetu logo and two primary options:
+
+- **Find Medicines**: Opens the patient prescription scanner and generic medicine directory.
+- **Manage Pharmacy**: Opens the chemist authentication portal and inventory restocking dashboard.
+
 ---
 
-## 🧭 Application Navigation Flow
+## 💡 Usage
 
+### Flow 1: Patient Medicine Discovery
+1. Tap **Find Medicines** on the welcome screen and accept the consultation disclaimer.
+2. Tap **Scan Now** to photograph a prescription, or enter a brand name in the search bar.
+3. Review the matched generic salt name and estimated cost savings.
+4. Browse nearby pharmacies tagged with 🟢 **Verified In-Stock** (restocked today) or 🟡 **Likely In-Stock** (baseline catalog).
+5. Open the pharmacy details page to view the **Pharmacist Card** for counter presentation, or tap **Call** to check directly.
+
+### Flow 2: Chemist Stock Restocking
+1. Tap **Manage Pharmacy** on the welcome screen and sign in with your chemist account.
+2. From the restock screen, select **Scan Invoice**, **Upload PDF**, **Scan Medicine Box**, or **Voice Mode**.
+3. After Gemini parses your document or speech, inspect the extracted medicine names and quantities on the **Invoice Review Sheet**.
+4. Confirm the entries to instantly write verified stock updates to Cloud Firestore.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Flutter & Dart**: Cross-platform application framework powering mobile and web user interfaces.
+- **Google Gemini 2.5 Flash / 1.5 Pro**: Multimodal AI model performing handwritten prescription OCR, distributor invoice data extraction, and voice text processing.
+- **Cloud Firestore**: Real-time cloud database managing pharmacy inventory records, store profiles, and the master generic medicine catalog.
+- **Firebase Authentication**: User and pharmacy owner authentication supporting secure portal access.
+- **Flutter Barcode Scanner**: Hardware camera integration for scanning blister pack and carton barcodes during restocking.
+- **Geolocator & URL Launcher**: Location-based store distance calculation, native phone dialer integration, and map routing deep links.
+
+---
+
+## 📁 Project Structure
+
+```text
+MedSetu-TechSprint/
+├── android/                 # Android native project and Gradle configuration
+├── ios/                     # iOS native workspace and Podfile
+├── assets/                  # Application fonts and brand images
+│   └── images/              # MedSetu logo asset (WhatsApp_Image_2026-01-14_at_20.38.53.jpeg)
+├── firebase/                # Firestore rules, security indexes, and Cloud Functions
+│   └── functions/           # Node.js Firebase functions
+├── lib/                     # Application source code
+│   ├── authentication_pages/# Chemist login, gate check, and shop registration
+│   ├── backend/             # Firebase configuration, Firestore schema, and Gemini API calls
+│   ├── custom_code/         # Base64 image converters and search reference helpers
+│   ├── flutter_flow/        # Theme definitions, navigation router, and custom functions
+│   ├── home_page/           # Welcome screen and dual-role selector
+│   ├── patient_pages/       # Prescription scanner, store results, and store navigator
+│   ├── seller_pages/        # Restock modalities, invoice review sheet, and barcode scanner
+│   └── main.dart            # Application entry point and router initialization
+└── pubspec.yaml             # Dart environment and Flutter package dependencies
 ```
-                           ┌────────────────────────────┐
-                           │      MedSetu Welcome       │
-                           │        (Role Gate)         │
-                           └──────────────┬─────────────┘
-                                          │
-                ┌─────────────────────────┴─────────────────────────┐
-                ▼                                                   ▼
-     ┌──────────────────────┐                            ┌──────────────────────┐
-     │   🧑‍🦳 Patient / User   │                            │  🏪 Pharmacy Owner   │
-     └──────────┬───────────┘                            └──────────┬───────────┘
-                │                                                   │
-        [Disclaimer Dialog]                                   [Store Gate]
-                │                                        (Login / Registration)
-                ▼                                                   │
-     ┌──────────────────────┐                                       ▼
-     │ Patient Search Hub   │                            ┌──────────────────────┐
-     │ • Rx Camera Capture  │                            │   Seller Dashboard   │
-     │ • Text Keyword Search│                            │ • Today's Statistics │
-     └──────────┬───────────┘                            │ • Inventory Overview │
-                │                                        └──────────┬───────────┘
-                ▼                                                   │
-     ┌──────────────────────┐                            4 Ingestion Modalities:
-     │ Store Results Screen │                            ├── 1. Invoice Photo OCR
-     │ • Freshness Sorting  │                            ├── 2. Wholesale PDF Ingestion
-     │ • Smart Price Savings│                            ├── 3. Carton Barcode Scan
-     └──────────┬───────────┘                            └── 4. Natural Voice Restock
-                │                                                   │
-                ▼                                                   ▼
-     ┌──────────────────────┐                            ┌──────────────────────┐
-     │ Store Navigator Hub  │                            │ Invoice Review Sheet │
-     │ • Pharmacist Handover│                            │ (Human-in-the-Loop)  │
-     │ • Direct Dial Chemist│                            └──────────┬───────────┘
-     │ • Google Maps Route  │                                       │
-     └──────────────────────┘                                       ▼
-                                                        [Cloud Firestore Sync]
-```
 
 ---
 
-## 🏆 Project Context
+## 👥 Author & Context
 
-* **Event**: GDG VESIT TechSprint Hackathon
-* **Domain**: Healthcare Accessibility, Multimodal AI, and Public Health Logistics
-* **Mission**: Ending out-of-pocket medical expenditure by bringing real-time supply transparency to India's *Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)*.
-
----
-
-## 👨‍💻 Author
-
-**Parth Chavan**
-* GitHub: [@Parth-Chavan-15](https://github.com/Parth-Chavan-15)
-* Repository: [MedSetu-TechSprint](https://github.com/Parth-Chavan-15/MedSetu-TechSprint)
-
----
-
-<div align="center">
-  <sub>Built with ❤️ by Parth Chavan to make affordable healthcare a reality for every Indian citizen. 🇮🇳</sub>
-</div>
+- **Developer**: [Parth Chavan](https://github.com/Parth-Chavan-15)
+- **Hackathon**: Developed for the **GDG VESIT TechSprint**
+- **Repository**: [Parth-Chavan-15/MedSetu-TechSprint](https://github.com/Parth-Chavan-15/MedSetu-TechSprint)
+- **License**: No formal license file is currently included in the repository.
