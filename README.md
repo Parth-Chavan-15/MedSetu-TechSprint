@@ -2,8 +2,8 @@
 
   <img src="assets/images/WhatsApp_Image_2026-01-14_at_20.38.53.jpeg" alt="MedSetu Logo" width="130" style="border-radius: 50%; box-shadow: 0 8px 24px rgba(0,0,0,0.18);" />
 
-  # 💊 MedSetu (जन सेतु)
-  ### *Bridging the gap between doctor handwriting, affordable generic medicines, and real-time pharmacy inventory.*
+  # 💊 MedSetu (मेडसेतु)
+  ### *Bridging doctor handwriting, affordable generic medicines, and verified pharmacy inventory.*
 
   **Built for the GDG VESIT TechSprint Hackathon**  
   **Crafted by [Parth Chavan](https://github.com/Parth-Chavan-15)**
@@ -17,7 +17,7 @@
   </p>
 
   <p align="center">
-    <strong>MedSetu (जन सेतु)</strong> is a dual-agent healthcare platform engineered to make affordable life-saving medicines accessible to every citizen under India's <i>Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)</i>. It couples <b>rapid, zero-friction inventory logging</b> for local chemists (via distributor bill OCR, wholesale PDFs, voice dictation, and barcode scans) with a <b>visual prescription AI decoder</b>, <b>bio-equivalent generic substitution engine</b>, and <b>same-day shelf freshness verification</b> for patients.
+    <strong>MedSetu (मेडसेतु)</strong> is a dual-agent healthcare platform engineered to make affordable life-saving medicines accessible to every citizen under India's <i>Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)</i>. It couples <b>rapid, zero-friction inventory logging</b> for local chemists (via distributor bill OCR, wholesale PDFs, voice dictation, and barcode scans) with a <b>visual prescription AI decoder</b>, <b>bio-equivalent generic substitution engine</b>, and <b>same-day shelf freshness verification</b> for patients.
   </p>
 
   <p align="center">
@@ -42,15 +42,23 @@ Healthcare expenses push an estimated 55 million Indian citizens into poverty ea
 
 Despite this nationwide initiative, millions of families still buy expensive branded drugs out-of-pocket because the supply chain fails at the critical "last mile":
 
-```
-[Messy Doctor Prescription] ────❌ Illegible Brand Names────► [Patient (Unaware of Generic Salt)]
-                                                                           │
-                                                                   Travels Across Town
-                                                                           ▼
-[Central Database: "In Stock"] ──❌ Out of Sync with Shelves──► [Physical Store: "Ghost Stock" (Empty)]
+```mermaid
+flowchart LR
+    RX["Doctor Prescription<br/>Handwritten Shorthand"] -->|Illegible Brand Name| PATIENT["Patient<br/>Unaware of Generic Salt"]
+    PATIENT -->|Travels Miles to Kendra| STORE["Jan Aushadhi Kendra<br/>Empty Shelves: Ghost Stock"]
+    DB["Central Government Portal<br/>Falsely Reports In Stock"] -->|Out of Sync with Reality| STORE
+    STORE -->|Desperation Purchase| RETAIL["Commercial Chemist<br/>Full Out-of-Pocket Expense"]
+
+    classDef redNode fill:#FFEBEE,stroke:#D32F2F,color:#B71C1C,stroke-width:2px;
+    classDef warnNode fill:#FFF3E0,stroke:#F57C00,color:#E65100,stroke-width:2px;
+
+    class RX,DB,STORE,RETAIL redNode;
+    class PATIENT warnNode;
+
+    linkStyle default stroke:#E57373,stroke-width:2px;
 ```
 
-1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry. Physical shelves run out of stock, while central portals continue reporting false availability.
+1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry into legacy desktop ERPs. Physical shelves run dry, while central portals continue reporting false availability.
 2. **The Handwriting & Brand Shorthand Barrier**: Prescriptions are written in hurried doctor shorthand using commercial brand names (such as *Augmentin 625*, *Dolo 650*, or *Pan-D*). Patients have no accessible way to decode these into active generic chemical formulations (such as *Amoxicillin + Clavulanic Acid* or *Paracetamol 650mg*).
 3. **Wasted Journeys & Desperation Purchases**: Patients travel miles across town to a Jan Aushadhi Kendra, only to find the medicine out of stock. In urgent medical distress, they walk into a nearby retail chemist and pay full market price out-of-pocket.
 
@@ -76,7 +84,7 @@ MedSetu replaces passive, out-of-date directories with an **AI-driven real-time 
 Engineered for busy local pharmacists and Jan Aushadhi Kendra operators who cannot spend hours typing data.
 
 * **📸 Distributor Paper Bill OCR**: Snap a quick photo of a wholesale paper invoice. Google Gemini Vision extracts medicine names and quantities into structured data in seconds.
-* **📄 Wholesale PDF Ingestion**: Directly upload digital distributor invoice PDFs to parse multi-item wholesale deliveries in a single tap.
+* **📄 Wholesale PDF Ingestion**: Directly upload digital distributor invoice PDFs to parse multi-item wholesale deliveries in a single tap without manual typing.
 * **🎙️ Voice-to-Ledger Dictation**: Tap the microphone and speak naturally (e.g., *"Received 50 strips of Metformin 500mg and 20 bottles of Cetirizine"*). The NLP engine parses quantities and automatically corrects Indian pharmaceutical phonetic spellings.
 * **📦 Blister Pack Barcode Restocking**: Integrated camera barcode scanner reads medicine cartons and blister packs, performing atomic quantity increments in Cloud Firestore with instant haptic feedback.
 * **🧑‍💻 Human-in-the-Loop Review Sheet**: Prevents AI extraction inaccuracies from touching production inventory. Chemists review, adjust quantities, and remove items on an interactive bottom sheet before confirming updates.
@@ -212,9 +220,9 @@ sequenceDiagram
 
 To eradicate ghost stock, MedSetu calculates a dynamic **Priority Score** for each pharmacy carrying the requested medicine, prioritizing verified shelf freshness, generic availability, and affordability:
 
-$$\text{Priority Score} = \left(100 \times \mathbf{1}_{\Delta t \lt 24\text{ h}}\right) + \left(10 \times \mathbf{1}_{\text{isGeneric}}\right)$$
+$$\text{Priority Score} = \left(100 \times \mathbf{1}_{\Delta t \lt 24\text{ h}}\right) + \left(10 \times \mathbf{1}_{\text{Generic}}\right)$$
 
-$$\text{Tie-Breaker} = \min(\text{unit\_price})$$
+$$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 
 * **Freshness Tier (+100 pts)**: Awarded if the inventory was restocked or verified within the last 24 hours ($\Delta t \lt 24\text{ h}$), guaranteeing that the patient will not encounter empty shelves.
 * **Generic Priority (+10 pts)**: Awarded to authorized PMBJP Kendras and generic formulations to promote low-cost healthcare.
