@@ -49,11 +49,11 @@ flowchart LR
     PORTAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Central Portal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; False 'In Stock' Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Out of Sync| KENDRA
     KENDRA -->|Urgent Need| RETAIL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Chemist &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; High Out-of-Pocket Cost &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    classDef clinic fill:#E1F5FE,stroke:#0288D1,color:#01579B,stroke-width:2px;
-    classDef patient fill:#FFF8E1,stroke:#FFA000,color:#E65100,stroke-width:2px;
-    classDef portal fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-width:2px;
-    classDef kendra fill:#FFEBEE,stroke:#E53935,color:#B71C1C,stroke-width:2px;
-    classDef retail fill:#EDE7F6,stroke:#7E57C2,color:#4527A0,stroke-width:2px;
+    classDef clinic fill:#0F2942,stroke:#0EA5E9,color:#F0F9FF,stroke-width:2px;
+    classDef patient fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
+    classDef portal fill:#1E293B,stroke:#94A3B8,color:#F8FAFC,stroke-width:2px;
+    classDef kendra fill:#4C0519,stroke:#F43F5E,color:#FFF1F2,stroke-width:2px;
+    classDef retail fill:#2E1065,stroke:#A855F7,color:#FAF5FF,stroke-width:2px;
 
     class RX clinic;
     class PATIENT patient;
@@ -61,7 +61,7 @@ flowchart LR
     class KENDRA kendra;
     class RETAIL retail;
 
-    linkStyle default stroke:#78909C,stroke-width:2px;
+    linkStyle default stroke:#64748B,stroke-width:2px;
 ```
 
 1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry into legacy desktop ERPs. Physical shelves run dry, while central portals continue reporting false availability.
@@ -117,12 +117,12 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
 flowchart TB
     subgraph ChemistEngine["Chemist Supply Ingestion Engine"]
         direction TB
-        C_INV["&nbsp;&nbsp;&nbsp;&nbsp; Distributor Paper Bill &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_INV["&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision OCR &nbsp;&nbsp;&nbsp;&nbsp;"]
-        C_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Wholesale PDF Invoice &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Gemini PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;"]
-        C_VOICE["&nbsp;&nbsp;&nbsp;&nbsp; Spoken Restock Voice &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_NLP["&nbsp;&nbsp;&nbsp;&nbsp; Gemini Speech NLP &nbsp;&nbsp;&nbsp;&nbsp;"]
-        C_BC["&nbsp;&nbsp;&nbsp;&nbsp; Package Barcode &nbsp;&nbsp;&nbsp;&nbsp;"] --> BC_SCAN["&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Distributor Paper Bill &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> G_INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision OCR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_PDF["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wholesale PDF Invoice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> G_PDF["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_VOICE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Spoken Restock Voice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> G_NLP["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini Speech NLP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_BC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Package Barcode &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> BC_SCAN["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-        G_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Human Validation &nbsp;&nbsp;&nbsp;&nbsp;"]
+        G_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Human Validation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
         G_PDF --> IRS
         G_NLP --> IRS
         BC_SCAN -->|Atomic +1 Count| FS_INV
@@ -134,29 +134,29 @@ flowchart TB
         FS_MED[(" Cloud Firestore <br/> Medicines Master ")]
         FS_STORES[(" Cloud Firestore <br/> Stores Directory ")]
 
-        FS_INV -.->|Live Stock Overrides| RANK["&nbsp;&nbsp;&nbsp;&nbsp; Priority Ranking Engine &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Freshness Scoring &nbsp;&nbsp;&nbsp;&nbsp;"]
+        FS_INV -.->|Live Stock Overrides| RANK["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Priority Ranking Engine &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Freshness Scoring &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
         FS_MED -.->|Salt Matching| RANK
         FS_STORES -.->|Chemist Registry| RANK
     end
 
     subgraph PatientEngine["Patient Demand and Discovery Engine"]
         direction TB
-        P_RX["&nbsp;&nbsp;&nbsp;&nbsp; Doctor Prescription &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Camera Capture &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_RX["&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;"]
-        P_TXT["&nbsp;&nbsp;&nbsp;&nbsp; Manual Medicine Search &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Brand or Generic &nbsp;&nbsp;&nbsp;&nbsp;"] --> MATCH["&nbsp;&nbsp;&nbsp;&nbsp; Catalog Matcher &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Prefix Query &nbsp;&nbsp;&nbsp;&nbsp;"]
+        P_RX["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Doctor Prescription &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Camera Capture &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> G_RX["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        P_TXT["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Manual Medicine Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Brand or Generic &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> MATCH["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Catalog Matcher &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prefix Query &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
         G_RX -->|Extracted Medicines| MATCH
         MATCH -->|Resolved Generic Salt| RANK
 
-        RANK --> UI_STORES["&nbsp;&nbsp;&nbsp;&nbsp; Nearby Store Results &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Fresh (<24h) vs Likely &nbsp;&nbsp;&nbsp;&nbsp;"]
-        UI_STORES --> ACT_CARD["&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Handover &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Verification Card &nbsp;&nbsp;&nbsp;&nbsp;"]
-        UI_STORES --> ACT_CALL["&nbsp;&nbsp;&nbsp;&nbsp; Direct Chemist Call &nbsp;&nbsp;&nbsp;&nbsp;"]
-        UI_STORES --> ACT_INFO["&nbsp;&nbsp;&nbsp;&nbsp; Store Address & License &nbsp;&nbsp;&nbsp;&nbsp;"]
+        RANK --> UI_STORES["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Nearby Store Results &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Fresh (<24h) vs Likely &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_CARD["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Handover &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Verification Card &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_CALL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Direct Chemist Call &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_INFO["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Address & License &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     end
 
-    classDef chemist fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
-    classDef patient fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
-    classDef ai fill:#F3E5F5,stroke:#7B1FA2,color:#4A148C,stroke-width:2px;
-    classDef firestore fill:#FFF8E1,stroke:#F57F17,color:#E65100,stroke-width:2px;
-    classDef output fill:#E0F2F1,stroke:#00796B,color:#004D40,stroke-width:2px;
+    classDef chemist fill:#064E3B,stroke:#10B981,color:#ECFDF5,stroke-width:2px;
+    classDef patient fill:#082F49,stroke:#38BDF8,color:#F0F9FF,stroke-width:2px;
+    classDef ai fill:#3B0764,stroke:#D946EF,color:#FDF4FF,stroke-width:2px;
+    classDef firestore fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
+    classDef output fill:#042F2E,stroke:#14B8A6,color:#CCFBF1,stroke-width:2px;
 
     class C_INV,C_PDF,C_VOICE,C_BC,BC_SCAN,IRS chemist;
     class P_RX,P_TXT,MATCH patient;
@@ -164,7 +164,7 @@ flowchart TB
     class FS_INV,FS_MED,FS_STORES,RANK firestore;
     class UI_STORES,ACT_CARD,ACT_CALL,ACT_INFO output;
 
-    linkStyle default stroke:#78909C,stroke-width:2px;
+    linkStyle default stroke:#475569,stroke-width:2px;
 ```
 
 <div align="center">
@@ -239,29 +239,31 @@ $$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 ```mermaid
 flowchart TD
     START["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Inventory Record &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> TIER1{"&nbsp;&nbsp;&nbsp;&nbsp; Verified Today (<24h)? &nbsp;&nbsp;&nbsp;&nbsp;"}
-    TIER1 -- Yes: under 24h --> S1["&nbsp;&nbsp;&nbsp;&nbsp; Tier 1: Fresh Stock &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +100 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;"]
-    TIER1 -- No: over 24h --> S0["&nbsp;&nbsp;&nbsp;&nbsp; Catalog Baseline &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER1 -- Yes: under 24h --> S1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 1: Fresh Stock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +100 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER1 -- No: over 24h --> S0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Catalog Baseline &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
     S1 --> TIER2{"&nbsp;&nbsp;&nbsp;&nbsp; PMBJP Generic Salt? &nbsp;&nbsp;&nbsp;&nbsp;"}
     S0 --> TIER2
-    TIER2 -- Yes: Generic --> G1["&nbsp;&nbsp;&nbsp;&nbsp; Tier 2: Generic Salt &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +10 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;"]
-    TIER2 -- No: Branded --> G0["&nbsp;&nbsp;&nbsp;&nbsp; Commercial Brand &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER2 -- Yes: Generic --> G1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 2: Generic Salt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +10 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER2 -- No: Branded --> G0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Brand &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    G1 --> EVAL["&nbsp;&nbsp;&nbsp;&nbsp; Priority Score Ranking &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Highest Score First &nbsp;&nbsp;&nbsp;&nbsp;"]
+    G1 --> EVAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Priority Score Ranking &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Highest Score First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     G0 --> EVAL
-    EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;"]
+    EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    classDef eval fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
-    classDef bonus fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
-    classDef neutral fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-width:2px;
-    classDef sort fill:#FFF8E1,stroke:#FFA000,color:#E65100,stroke-width:2px;
+    classDef startNode fill:#0F172A,stroke:#64748B,color:#F8FAFC,stroke-width:2px;
+    classDef eval fill:#172554,stroke:#0284C7,color:#E0F2FE,stroke-width:2px;
+    classDef bonus fill:#052E16,stroke:#22C55E,color:#DCFCE7,stroke-width:2px;
+    classDef neutral fill:#27272A,stroke:#71717A,color:#E4E4E7,stroke-width:2px;
+    classDef rankNode fill:#431407,stroke:#F97316,color:#FFEDD5,stroke-width:2px;
 
+    class START startNode;
     class TIER1,TIER2 eval;
     class S1,G1 bonus;
     class S0,G0 neutral;
-    class START,EVAL,TIE sort;
+    class EVAL,TIE rankNode;
 
-    linkStyle default stroke:#78909C,stroke-width:2px;
+    linkStyle default stroke:#64748B,stroke-width:2px;
 ```
 
 | Evaluation Stage | Scoring Mechanism | Operational Impact for Patients |
@@ -310,15 +312,15 @@ flowchart LR
     MED["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; medicines &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Master Drug Catalog &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; store_inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Live Counts & Freshness &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     STORES["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chemist Registry & GPS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV
 
-    classDef master fill:#E8EAF6,stroke:#3F51B5,color:#1A237E,stroke-width:2px;
-    classDef stores fill:#E0F2F1,stroke:#00897B,color:#004D40,stroke-width:2px;
-    classDef inv fill:#FFF8E1,stroke:#FF8F00,color:#E65100,stroke-width:2px;
+    classDef master fill:#1E1B4B,stroke:#6366F1,color:#EEF2FF,stroke-width:2px;
+    classDef stores fill:#042F2E,stroke:#0D9488,color:#CCFBF1,stroke-width:2px;
+    classDef inv fill:#451A03,stroke:#D97706,color:#FEF3C7,stroke-width:2px;
 
     class MED master;
     class STORES stores;
     class INV inv;
 
-    linkStyle default stroke:#78909C,stroke-width:2px;
+    linkStyle default stroke:#6366F1,stroke-width:2px;
 ```
 
 | Collection | Core Responsibility | Key Relational Pointers | Real-Time Sync Triggers |
@@ -391,42 +393,42 @@ When the application boots, you will see the welcome screen displaying the circu
 
 ```mermaid
 flowchart TD
-    WELCOME["&nbsp;&nbsp;&nbsp;&nbsp; Welcome Screen &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Role Selection &nbsp;&nbsp;&nbsp;&nbsp;"] -->|Find Medicines| MODAL["&nbsp;&nbsp;&nbsp;&nbsp; Safety Disclaimer &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Consultation Notice &nbsp;&nbsp;&nbsp;&nbsp;"]
-    WELCOME -->|Manage Pharmacy| GATE["&nbsp;&nbsp;&nbsp;&nbsp; Seller Gatekeeper &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Auth Status Check &nbsp;&nbsp;&nbsp;&nbsp;"]
+    WELCOME["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome Screen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role Selection &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Find Medicines| MODAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Safety Disclaimer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consultation Notice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    WELCOME -->|Manage Pharmacy| GATE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Seller Gatekeeper &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Auth Status Check &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    MODAL -->|Acknowledge| PS_HUB["&nbsp;&nbsp;&nbsp;&nbsp; Patient Search Hub &nbsp;&nbsp;&nbsp;&nbsp;"]
-    PS_HUB -->|Camera Photo| RX_DEC["&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;"]
-    PS_HUB -->|Text Search| TXT_MATCH["&nbsp;&nbsp;&nbsp;&nbsp; Medicine Catalog &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Prefix Search &nbsp;&nbsp;&nbsp;&nbsp;"]
-    RX_DEC --> CHIPS["&nbsp;&nbsp;&nbsp;&nbsp; Detected Medicines &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Selection Chips &nbsp;&nbsp;&nbsp;&nbsp;"]
+    MODAL -->|Acknowledge| PS_HUB["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patient Search Hub &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    PS_HUB -->|Camera Photo| RX_DEC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    PS_HUB -->|Text Search| TXT_MATCH["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Medicine Catalog &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prefix Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    RX_DEC --> CHIPS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Detected Medicines &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Selection Chips &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     TXT_MATCH --> CHIPS
 
-    CHIPS -->|Select Medicine| RESULTS["&nbsp;&nbsp;&nbsp;&nbsp; Store Results &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Savings & Freshness &nbsp;&nbsp;&nbsp;&nbsp;"]
-    RESULTS -->|Select Pharmacy| NAV["&nbsp;&nbsp;&nbsp;&nbsp; Store Navigator &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Card & Dial &nbsp;&nbsp;&nbsp;&nbsp;"]
+    CHIPS -->|Select Medicine| RESULTS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Results &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Savings & Freshness &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    RESULTS -->|Select Pharmacy| NAV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Navigator &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Card & Dial &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    GATE -->|Unauthenticated| LOGIN["&nbsp;&nbsp;&nbsp;&nbsp; Chemist Login &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Email / Password &nbsp;&nbsp;&nbsp;&nbsp;"]
-    GATE -->|No Registered Store| REG["&nbsp;&nbsp;&nbsp;&nbsp; Pharmacy Setup &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; License & GPS Location &nbsp;&nbsp;&nbsp;&nbsp;"]
-    GATE -->|Store Verified| DASH["&nbsp;&nbsp;&nbsp;&nbsp; Chemist Dashboard &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Inventory Overview &nbsp;&nbsp;&nbsp;&nbsp;"]
+    GATE -->|Unauthenticated| LOGIN["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chemist Login &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Email / Password &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    GATE -->|No Registered Store| REG["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pharmacy Setup &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; License & GPS Location &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    GATE -->|Store Verified| DASH["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chemist Dashboard &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Inventory Overview &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
     LOGIN --> DASH
     REG --> DASH
-    DASH -->|Update Stock| SCAN["&nbsp;&nbsp;&nbsp;&nbsp; Restock Modalities &nbsp;&nbsp;&nbsp;&nbsp;"]
+    DASH -->|Update Stock| SCAN["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Restock Modalities &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    SCAN -->|Invoice Photo| MOD_INV["&nbsp;&nbsp;&nbsp;&nbsp; Camera Bill OCR &nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Wholesale PDF| MOD_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Invoice PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Voice Input| MOD_VOICE["&nbsp;&nbsp;&nbsp;&nbsp; AI Voice Assistant &nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Barcode Scan| MOD_BC["&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Invoice Photo| MOD_INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Camera Bill OCR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Wholesale PDF| MOD_PDF["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Voice Input| MOD_VOICE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AI Voice Assistant &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Barcode Scan| MOD_BC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    MOD_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Pre-Commit Validation &nbsp;&nbsp;&nbsp;&nbsp;"]
+    MOD_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pre-Commit Validation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     MOD_PDF --> IRS
     MOD_VOICE --> IRS
     MOD_BC -->|Atomic +1 Count| SYNC[(" Cloud Firestore <br/> Real-Time Stock ")]
     IRS -->|Chemist Approval| SYNC
 
-    classDef welcome fill:#ECEFF1,stroke:#455A64,color:#263238,stroke-width:2px;
-    classDef patient fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
-    classDef chemist fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
-    classDef ai fill:#F3E5F5,stroke:#7B1FA2,color:#4A148C,stroke-width:2px;
-    classDef sync fill:#FFF8E1,stroke:#F57F17,color:#E65100,stroke-width:2px;
+    classDef welcome fill:#0F172A,stroke:#475569,color:#F8FAFC,stroke-width:2px;
+    classDef patient fill:#0C2D48,stroke:#0284C7,color:#E0F2FE,stroke-width:2px;
+    classDef chemist fill:#022C22,stroke:#059669,color:#D1FAE5,stroke-width:2px;
+    classDef ai fill:#2E1065,stroke:#9333EA,color:#FAF5FF,stroke-width:2px;
+    classDef sync fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
 
     class WELCOME,MODAL welcome;
     class PS_HUB,CHIPS,RESULTS,NAV,TXT_MATCH patient;
@@ -434,7 +436,7 @@ flowchart TD
     class RX_DEC,MOD_INV,MOD_PDF,MOD_VOICE,MOD_BC ai;
     class SYNC sync;
 
-    linkStyle default stroke:#78909C,stroke-width:2px;
+    linkStyle default stroke:#64748B,stroke-width:2px;
 ```
 
 ---
