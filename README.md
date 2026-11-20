@@ -49,11 +49,11 @@ flowchart LR
     PORTAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Central Portal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; False 'In Stock' Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Out of Sync| KENDRA
     KENDRA -->|Urgent Need| RETAIL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Chemist &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; High Out-of-Pocket Cost &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    classDef clinic fill:#0F2942,stroke:#0EA5E9,color:#F0F9FF,stroke-width:2px;
-    classDef patient fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
-    classDef portal fill:#1E293B,stroke:#94A3B8,color:#F8FAFC,stroke-width:2px;
-    classDef kendra fill:#4C0519,stroke:#F43F5E,color:#FFF1F2,stroke-width:2px;
-    classDef retail fill:#2E1065,stroke:#A855F7,color:#FAF5FF,stroke-width:2px;
+    classDef clinic fill:#E0F2FE,stroke:#38BDF8,color:#0369A1,stroke-width:2px;
+    classDef patient fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
+    classDef portal fill:#F1F5F9,stroke:#94A3B8,color:#334155,stroke-width:2px;
+    classDef kendra fill:#FFE4E6,stroke:#FB7185,color:#9F1239,stroke-width:2px;
+    classDef retail fill:#F3E8FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
 
     class RX clinic;
     class PATIENT patient;
@@ -61,7 +61,7 @@ flowchart LR
     class KENDRA kendra;
     class RETAIL retail;
 
-    linkStyle default stroke:#64748B,stroke-width:2px;
+    linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
 
 1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry into legacy desktop ERPs. Physical shelves run dry, while central portals continue reporting false availability.
@@ -113,6 +113,11 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
 
 ## 🏗️ System Architecture
 
+<details>
+<summary><b>📐 View System Architecture Diagram (Click to Expand)</b></summary>
+
+<br/>
+
 ```mermaid
 flowchart TB
     subgraph ChemistEngine["Chemist Supply Ingestion Engine"]
@@ -152,11 +157,11 @@ flowchart TB
         UI_STORES --> ACT_INFO["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Address & License &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     end
 
-    classDef chemist fill:#064E3B,stroke:#10B981,color:#ECFDF5,stroke-width:2px;
-    classDef patient fill:#082F49,stroke:#38BDF8,color:#F0F9FF,stroke-width:2px;
-    classDef ai fill:#3B0764,stroke:#D946EF,color:#FDF4FF,stroke-width:2px;
-    classDef firestore fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
-    classDef output fill:#042F2E,stroke:#14B8A6,color:#CCFBF1,stroke-width:2px;
+    classDef chemist fill:#DCFCE7,stroke:#4ADE80,color:#166534,stroke-width:2px;
+    classDef patient fill:#E0F2FE,stroke:#38BDF8,color:#0369A1,stroke-width:2px;
+    classDef ai fill:#F3E8FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
+    classDef firestore fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
+    classDef output fill:#CCFBF1,stroke:#2DD4BF,color:#115E59,stroke-width:2px;
 
     class C_INV,C_PDF,C_VOICE,C_BC,BC_SCAN,IRS chemist;
     class P_RX,P_TXT,MATCH patient;
@@ -164,12 +169,14 @@ flowchart TB
     class FS_INV,FS_MED,FS_STORES,RANK firestore;
     class UI_STORES,ACT_CARD,ACT_CALL,ACT_INFO output;
 
-    linkStyle default stroke:#475569,stroke-width:2px;
+    linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
 
 <div align="center">
   <sub>Dual-agent architecture: supply-side rapid restocking meets demand-side prescription decoding and freshness-ranked discovery.</sub>
 </div>
+
+</details>
 
 <br/>
 
@@ -251,11 +258,11 @@ flowchart TD
     G0 --> EVAL
     EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    classDef startNode fill:#0F172A,stroke:#64748B,color:#F8FAFC,stroke-width:2px;
-    classDef eval fill:#172554,stroke:#0284C7,color:#E0F2FE,stroke-width:2px;
-    classDef bonus fill:#052E16,stroke:#22C55E,color:#DCFCE7,stroke-width:2px;
-    classDef neutral fill:#27272A,stroke:#71717A,color:#E4E4E7,stroke-width:2px;
-    classDef rankNode fill:#431407,stroke:#F97316,color:#FFEDD5,stroke-width:2px;
+    classDef startNode fill:#F1F5F9,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
+    classDef eval fill:#E0E7FF,stroke:#818CF8,color:#3730A3,stroke-width:2px;
+    classDef bonus fill:#DCFCE7,stroke:#4ADE80,color:#15803D,stroke-width:2px;
+    classDef neutral fill:#F4F4F5,stroke:#A1A1AA,color:#3F3F46,stroke-width:2px;
+    classDef rankNode fill:#FFEDD5,stroke:#FB923C,color:#9A3412,stroke-width:2px;
 
     class START startNode;
     class TIER1,TIER2 eval;
@@ -263,7 +270,7 @@ flowchart TD
     class S0,G0 neutral;
     class EVAL,TIE rankNode;
 
-    linkStyle default stroke:#64748B,stroke-width:2px;
+    linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
 
 | Evaluation Stage | Scoring Mechanism | Operational Impact for Patients |
@@ -312,15 +319,15 @@ flowchart LR
     MED["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; medicines &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Master Drug Catalog &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; store_inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Live Counts & Freshness &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     STORES["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chemist Registry & GPS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV
 
-    classDef master fill:#1E1B4B,stroke:#6366F1,color:#EEF2FF,stroke-width:2px;
-    classDef stores fill:#042F2E,stroke:#0D9488,color:#CCFBF1,stroke-width:2px;
-    classDef inv fill:#451A03,stroke:#D97706,color:#FEF3C7,stroke-width:2px;
+    classDef master fill:#E0E7FF,stroke:#818CF8,color:#3730A3,stroke-width:2px;
+    classDef stores fill:#CCFBF1,stroke:#2DD4BF,color:#115E59,stroke-width:2px;
+    classDef inv fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
 
     class MED master;
     class STORES stores;
     class INV inv;
 
-    linkStyle default stroke:#6366F1,stroke-width:2px;
+    linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
 
 | Collection | Core Responsibility | Key Relational Pointers | Real-Time Sync Triggers |
@@ -391,6 +398,11 @@ When the application boots, you will see the welcome screen displaying the circu
 
 ## 🧭 Application Navigation Flow
 
+<details>
+<summary><b>🧭 View Complete Application Navigation Flow (Click to Expand)</b></summary>
+
+<br/>
+
 ```mermaid
 flowchart TD
     WELCOME["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome Screen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role Selection &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Find Medicines| MODAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Safety Disclaimer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consultation Notice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
@@ -424,11 +436,11 @@ flowchart TD
     MOD_BC -->|Atomic +1 Count| SYNC[(" Cloud Firestore <br/> Real-Time Stock ")]
     IRS -->|Chemist Approval| SYNC
 
-    classDef welcome fill:#0F172A,stroke:#475569,color:#F8FAFC,stroke-width:2px;
-    classDef patient fill:#0C2D48,stroke:#0284C7,color:#E0F2FE,stroke-width:2px;
-    classDef chemist fill:#022C22,stroke:#059669,color:#D1FAE5,stroke-width:2px;
-    classDef ai fill:#2E1065,stroke:#9333EA,color:#FAF5FF,stroke-width:2px;
-    classDef sync fill:#451A03,stroke:#F59E0B,color:#FEF3C7,stroke-width:2px;
+    classDef welcome fill:#F1F5F9,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
+    classDef patient fill:#E0F2FE,stroke:#38BDF8,color:#0369A1,stroke-width:2px;
+    classDef chemist fill:#DCFCE7,stroke:#4ADE80,color:#166534,stroke-width:2px;
+    classDef ai fill:#F3E8FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
+    classDef sync fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
 
     class WELCOME,MODAL welcome;
     class PS_HUB,CHIPS,RESULTS,NAV,TXT_MATCH patient;
@@ -436,8 +448,10 @@ flowchart TD
     class RX_DEC,MOD_INV,MOD_PDF,MOD_VOICE,MOD_BC ai;
     class SYNC sync;
 
-    linkStyle default stroke:#64748B,stroke-width:2px;
+    linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
+
+</details>
 
 ---
 
