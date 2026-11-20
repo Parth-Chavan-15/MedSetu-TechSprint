@@ -171,8 +171,12 @@ flowchart TB
   <sub>Dual-agent architecture: supply-side rapid restocking meets demand-side prescription decoding and freshness-ranked discovery.</sub>
 </div>
 
+<br/>
+
 <details>
 <summary><b>🔍 View detailed End-to-End Sequence Workflow (click to expand)</b></summary>
+
+<br/>
 
 ```mermaid
 sequenceDiagram
@@ -230,52 +234,41 @@ $$\text{Priority Score} = \left(100 \times \mathbf{1}_{\Delta t \lt 24\text{ h}}
 
 $$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 
-* **Freshness Tier (+100 pts)**: Awarded if the inventory was restocked or verified within the last 24 hours ($\Delta t \lt 24\text{ h}$), guaranteeing that the patient will not encounter empty shelves.
-* **Generic Priority (+10 pts)**: Awarded to authorized PMBJP Kendras and generic formulations to promote low-cost healthcare.
-* **Unit Price Tie-Breaker**: When priority scores are identical, stores are ranked by lowest unit price first.
+### Priority Evaluation Pipeline
 
-```dart
-List<StoreInventoryRecord> sortInventoryByPriority(List<StoreInventoryRecord> inputList) {
-  final now = DateTime.now();
+```mermaid
+flowchart TD
+    START["Pharmacy Stock Record"] --> TIER1{"Shelf Freshness Check<br/>Was stock verified today?"}
+    TIER1 -- Yes: under 24h --> S1["Tier 1: Fresh Stock Verified<br/>+100 Points Awarded"]
+    TIER1 -- No: over 24h --> S0["Catalog Baseline<br/>+0 Points"]
 
-  inputList.sort((a, b) {
-    // 1. Determine Freshness (< 24 hours)
-    final DateTime aTime = a.lastUpdated ?? DateTime(1970);
-    final DateTime bTime = b.lastUpdated ?? DateTime(1970);
-    final bool aFresh = now.difference(aTime).inHours < 24;
-    final bool bFresh = now.difference(bTime).inHours < 24;
+    S1 --> TIER2{"Formulation Check<br/>Authorized Generic Salt?"}
+    S0 --> TIER2
+    TIER2 -- Yes: Generic --> G1["Tier 2: Generic Priority<br/>+10 Points Awarded"]
+    TIER2 -- No: Branded --> G0["Commercial Formulation<br/>+0 Points"]
 
-    // 2. Generic Preference
-    final bool aGeneric = a.isGeneric == true;
-    final bool bGeneric = b.isGeneric == true;
+    G1 --> EVAL["Composite Priority Score<br/>Rank Stores in Descending Order"]
+    G0 --> EVAL
+    EVAL --> TIE["Tie-Breaker Evaluation<br/>Cheapest Unit Price Ranked First"]
 
-    // Safely parse unit prices
-    final double aPrice = (a.unitPrice ?? 999999).toDouble();
-    final double bPrice = (b.unitPrice ?? 999999).toDouble();
+    classDef eval fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
+    classDef bonus fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
+    classDef neutral fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-width:2px;
+    classDef sort fill:#FFF8E1,stroke:#FFA000,color:#E65100,stroke-width:2px;
 
-    int scoreA = 0;
-    int scoreB = 0;
+    class TIER1,TIER2 eval;
+    class S1,G1 bonus;
+    class S0,G0 neutral;
+    class START,EVAL,TIE sort;
 
-    // Freshness Tier (< 24 hours): +100 pts
-    if (aFresh) scoreA += 100;
-    if (bFresh) scoreB += 100;
-
-    // Generic Priority: +10 pts
-    if (aGeneric) scoreA += 10;
-    if (bGeneric) scoreB += 10;
-
-    // Highest score first
-    if (scoreA != scoreB) {
-      return scoreB.compareTo(scoreA);
-    }
-
-    // Tie-Breaker: Lowest Unit Price First
-    return aPrice.compareTo(bPrice);
-  });
-
-  return inputList;
-}
+    linkStyle default stroke:#78909C,stroke-width:2px;
 ```
+
+| Evaluation Stage | Scoring Mechanism | Operational Impact for Patients |
+| :--- | :--- | :--- |
+| **Tier 1: Physical Freshness** | `+100 pts` if verified within `< 24 hours` | Guarantees zero wasted trips by prioritizing pharmacies whose shelves were restocked today. |
+| **Tier 2: Generic Preference** | `+10 pts` if authorized PMBJP generic | Prioritizes government affordable generic salts over commercial branded alternatives. |
+| **Tier 3: Price Tie-Breaker** | $\min(\text{Unit Price})$ | When availability and formulation match, automatically routes patients to the most economical store. |
 
 ### Real-Time Availability Indicators
 
@@ -292,22 +285,13 @@ List<StoreInventoryRecord> sortInventoryByPriority(List<StoreInventoryRecord> in
 > **MedSetu is an informational bridge, not a prescribing authority.**  
 > Under Indian drug regulations (Drugs and Cosmetics Act), Schedule H and H1 medications must be verified and dispensed by a licensed pharmacist.
 
-MedSetu implements a **3-Tier Medical Safety Matrix**:
+### 3-Tier Medical Safety Architecture
 
-```
-┌──────────────────────────────────────────────────────────────────────────┐
-│                       3-TIER MEDICAL SAFETY MATRIX                       │
-├───────────────────────────┬──────────────────────────────────────────────┤
-│ 1. Mandatory Gate Modal   │ Explicit user disclaimer on first launch     │
-│                           │ acknowledging pharmacist confirmation.       │
-├───────────────────────────┼──────────────────────────────────────────────┤
-│ 2. The Pharmacist Card    │ In-app counter token presenting substitute   │
-│                           │ generic salt for licensed pharmacist check.  │
-├───────────────────────────┼──────────────────────────────────────────────┤
-│ 3. Human-in-the-Loop OCR  │ Prevents raw AI vision extraction from       │
-│                           │ corrupting stock without chemist sign-off.    │
-└───────────────────────────┴──────────────────────────────────────────────┘
-```
+| Safety Layer | Implementation Mechanism | Clinical & Regulatory Safeguard |
+| :--- | :--- | :--- |
+| **1. Mandatory Gate Modal** | First-launch acknowledgment dialog | Mandates explicit user confirmation: *"Always verify medicines with a registered Pharmacist before purchase."* |
+| **2. The Pharmacist Card** | In-app counter presentation token | Hands substitution authority to licensed chemists before dispensing Schedule H/H1 drugs. |
+| **3. Chemist Review Gate** | Interactive pre-commit review sheet | Prevents unverified AI vision or voice extractions from touching live database records without human sign-off. |
 
 1. **Mandatory Launch Disclaimer**: Users must explicitly acknowledge:  
    `"Always verify medicines with a registered Pharmacist before purchase."`
@@ -321,21 +305,20 @@ MedSetu implements a **3-Tier Medical Safety Matrix**:
 
 MedSetu uses a relational document model in Cloud Firestore designed for real-time querying, high availability, and low read latency:
 
-```
-┌──────────────────────┐          ┌──────────────────────┐
-│  medicines (Master)  │          │   stores (Registry)  │
-│  • Brand & Salt Name │          │  • Chemist Location  │
-│  • Standard MRP      │          │  • License & Contact │
-└──────────┬───────────┘          └──────────┬───────────┘
-           │ 1                               │ 1
-           │                                 │
-           │           N           N         │
-           └───────────► ┌─────────────────┐ ◄┘
-                         │ store_inventory │
-                         │ • Live Quantity │
-                         │ • Selling Price │
-                         │ • Freshness Time│
-                         └─────────────────┘
+```mermaid
+flowchart LR
+    MED["💊 medicines<br/>Master Catalog & Generic Salts"] ---|1 : N| INV["📦 store_inventory<br/>Real-Time Shelf Counts & Freshness"]
+    STORES["🏪 stores<br/>Verified Chemist Registry & GPS"] ---|1 : N| INV
+
+    classDef master fill:#E8EAF6,stroke:#3F51B5,color:#1A237E,stroke-width:2px;
+    classDef stores fill:#E0F2F1,stroke:#00897B,color:#004D40,stroke-width:2px;
+    classDef inv fill:#FFF8E1,stroke:#FF8F00,color:#E65100,stroke-width:2px;
+
+    class MED master;
+    class STORES stores;
+    class INV inv;
+
+    linkStyle default stroke:#78909C,stroke-width:2px;
 ```
 
 | Collection | Core Responsibility | Key Relational Pointers | Real-Time Sync Triggers |
@@ -374,15 +357,15 @@ flutter pub get
 ```
 
 ### 4. Configure Google Gemini API Key
-MedSetu uses Google Gemini 2.5 Flash for prescription vision decoding, invoice OCR, and voice parsing. Add your Gemini API key in the following two files:
-* In `lib/backend/gemini/gemini.dart` (set `_kGeminiApiKey`):
-  ```dart
-  const _kGeminiApiKey = 'YOUR_GEMINI_API_KEY_HERE';
-  ```
-* In `lib/backend/api_requests/api_calls.dart` (replace the `x-goog-api-key` header value with your key).
+MedSetu uses Google Gemini 2.5 Flash for prescription vision decoding, invoice OCR, and voice parsing. Add your API key in the client configuration files:
+
+| Target File | Configuration Parameter | Purpose |
+| :--- | :--- | :--- |
+| `lib/backend/gemini/gemini.dart` | `_kGeminiApiKey = 'YOUR_KEY'` | Client SDK initialization for generative vision and text |
+| `lib/backend/api_requests/api_calls.dart` | `'x-goog-api-key': 'YOUR_KEY'` | REST API headers for prescription, invoice, and voice pipelines |
 
 > [!NOTE]
-> Pre-configured Firebase settings (`android/app/google-services.json` and `ios/Runner/GoogleService-Info.plist`) are already included in the repository for testing with the live hackathon database.
+> Pre-configured Firebase settings (`android/app/google-services.json` and `ios/Runner/GoogleService-Info.plist`) are already bundled in the repository for testing with the live hackathon database.
 
 ### 5. Launch the Application
 ```bash
@@ -462,28 +445,15 @@ flowchart TD
 
 ## 🛠️ Tech Stack & Dependencies
 
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                           MEDSETU TECH STACK                            │
-├───────────────────────┬─────────────────────────────────────────────────┤
-│ Core Framework        │ Flutter 3.x (Dart 3.x)                          │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ UI & State Engine     │ FlutterFlow, Provider, Google Fonts,            │
-│                       │ Flutter Animate                                 │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ AI & Multimodal Vision│ Google Gemini 2.5 Flash API                     │
-│                       │ (google_generative_ai, custom REST pipelines)   │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Backend & Database    │ Google Cloud Firestore, Firebase Storage        │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Authentication        │ Firebase Auth (Email/Password, Phone OTP)       │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Hardware & Scanning   │ flutter_barcode_scanner, image_picker,          │
-│                       │ file_picker (wholesale PDF bills)               │
-├───────────────────────┼─────────────────────────────────────────────────┤
-│ Geo & Communication   │ geolocator, Google Maps API, url_launcher       │
-└───────────────────────┴─────────────────────────────────────────────────┘
-```
+| Layer | Technology | Primary Role in MedSetu |
+| :--- | :--- | :--- |
+| **Core Framework** | Flutter 3.x (Dart 3.x) | Cross-platform client architecture targeting Android, iOS, and Web |
+| **UI & State Engine** | FlutterFlow, Provider, Google Fonts, Flutter Animate | Reactive UI components, state lifecycle management, and micro-interactions |
+| **AI & Multimodal Vision** | Google Gemini 2.5 Flash (`google_generative_ai`) | Prescription vision OCR, wholesale invoice parsing, and voice NLP |
+| **Backend & Cloud Database** | Google Cloud Firestore, Firebase Storage | Low-latency document storage, real-time sync, and asset persistence |
+| **Authentication** | Firebase Auth | Role-gated chemist authentication and secure user sessions |
+| **Hardware & Scanning** | `flutter_barcode_scanner`, `image_picker`, `file_picker` | Blister pack barcode reading, camera document captures, and PDF ingestion |
+| **Geo & Communication** | `geolocator`, Google Maps API, `url_launcher` | Distance-based store sorting, phone dialer integration, and map navigation |
 
 ---
 
