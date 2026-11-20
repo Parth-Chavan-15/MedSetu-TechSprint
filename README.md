@@ -44,10 +44,10 @@ Despite this nationwide initiative, millions of citizens still buy costly brande
 
 ```mermaid
 flowchart LR
-    RX["👨‍⚕️ Doctor Prescription<br/>Handwritten Shorthand"] -->|Illegible Brand| PATIENT["🧑‍🦳 Confused Patient<br/>Unaware of Generic Salt"]
-    PATIENT -->|Travels to Kendra| KENDRA["🏥 Jan Aushadhi Kendra<br/>Empty Shelves: Ghost Stock"]
-    PORTAL["🏛️ Central Portal<br/>Reports Catalog In Stock"] -->|Out of Sync| KENDRA
-    KENDRA -->|Urgent Need| RETAIL["💊 Commercial Chemist<br/>Full Retail Out-of-Pocket"]
+    RX["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Doctor Prescription &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Handwritten Shorthand &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Illegible Brand| PATIENT["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Confused Patient &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Unaware of Generic &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    PATIENT -->|Travels to Kendra| KENDRA["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jan Aushadhi Kendra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Empty Shelves: Ghost Stock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    PORTAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Central Portal &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; False 'In Stock' Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Out of Sync| KENDRA
+    KENDRA -->|Urgent Need| RETAIL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Chemist &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; High Out-of-Pocket Cost &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
     classDef clinic fill:#E1F5FE,stroke:#0288D1,color:#01579B,stroke-width:2px;
     classDef patient fill:#FFF8E1,stroke:#FFA000,color:#E65100,stroke-width:2px;
@@ -117,39 +117,39 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
 flowchart TB
     subgraph ChemistEngine["Chemist Supply Ingestion Engine"]
         direction TB
-        C_INV["Distributor Paper Bill"] --> G_INV["Gemini Vision OCR"]
-        C_PDF["Wholesale PDF Invoice"] --> G_PDF["Gemini PDF Parser"]
-        C_VOICE["Spoken Restock Speech"] --> G_NLP["Gemini Speech NLP"]
-        C_BC["Carton Blister Barcode"] --> BC_SCAN["Hardware Barcode Scanner"]
+        C_INV["&nbsp;&nbsp;&nbsp;&nbsp; Distributor Paper Bill &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_INV["&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision OCR &nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Wholesale PDF Invoice &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Gemini PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_VOICE["&nbsp;&nbsp;&nbsp;&nbsp; Spoken Restock Voice &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_NLP["&nbsp;&nbsp;&nbsp;&nbsp; Gemini Speech NLP &nbsp;&nbsp;&nbsp;&nbsp;"]
+        C_BC["&nbsp;&nbsp;&nbsp;&nbsp; Package Barcode &nbsp;&nbsp;&nbsp;&nbsp;"] --> BC_SCAN["&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-        G_INV --> IRS["Invoice Review Sheet<br/>Human-in-the-Loop"]
+        G_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Human Validation &nbsp;&nbsp;&nbsp;&nbsp;"]
         G_PDF --> IRS
         G_NLP --> IRS
-        BC_SCAN -->|Atomic Plus One Update| FS_INV
-        IRS -->|Chemist Approval| FS_INV[("Cloud Firestore<br/>Store Inventory")]
+        BC_SCAN -->|Atomic +1 Count| FS_INV
+        IRS -->|Chemist Approval| FS_INV[(" Cloud Firestore <br/> Store Inventory ")]
     end
 
     subgraph CoreEngine["Real-Time Freshness and Catalog Pipeline"]
         direction TB
-        FS_MED[("Cloud Firestore<br/>Medicines Master")]
-        FS_STORES[("Cloud Firestore<br/>Stores Directory")]
+        FS_MED[(" Cloud Firestore <br/> Medicines Master ")]
+        FS_STORES[(" Cloud Firestore <br/> Stores Directory ")]
 
-        FS_INV -.->|Live Stock Overrides| RANK["Priority Ranking Engine<br/>Freshness Scoring"]
+        FS_INV -.->|Live Stock Overrides| RANK["&nbsp;&nbsp;&nbsp;&nbsp; Priority Ranking Engine &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Freshness Scoring &nbsp;&nbsp;&nbsp;&nbsp;"]
         FS_MED -.->|Salt Matching| RANK
-        FS_STORES -.->|Location Coordinates| RANK
+        FS_STORES -.->|Chemist Registry| RANK
     end
 
     subgraph PatientEngine["Patient Demand and Discovery Engine"]
         direction TB
-        P_RX["Doctor Prescription Photo"] --> G_RX["Gemini Prescription Decoder"]
-        P_TXT["Manual Salt or Brand Search"] --> MATCH["Fuzzy Prefix Matcher"]
-        G_RX -->|Extracted Medicine List| MATCH
-        MATCH -->|Resolved Salt References| RANK
+        P_RX["&nbsp;&nbsp;&nbsp;&nbsp; Doctor Prescription &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Camera Capture &nbsp;&nbsp;&nbsp;&nbsp;"] --> G_RX["&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;"]
+        P_TXT["&nbsp;&nbsp;&nbsp;&nbsp; Manual Medicine Search &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Brand or Generic &nbsp;&nbsp;&nbsp;&nbsp;"] --> MATCH["&nbsp;&nbsp;&nbsp;&nbsp; Catalog Matcher &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Prefix Query &nbsp;&nbsp;&nbsp;&nbsp;"]
+        G_RX -->|Extracted Medicines| MATCH
+        MATCH -->|Resolved Generic Salt| RANK
 
-        RANK --> UI_STORES["Nearby Store Results<br/>Verified under 24h vs Likely"]
-        UI_STORES --> ACT_CARD["Pharmacist Handover Card"]
-        UI_STORES --> ACT_CALL["One-Tap Phone Call"]
-        UI_STORES --> ACT_MAP["Google Maps Navigation"]
+        RANK --> UI_STORES["&nbsp;&nbsp;&nbsp;&nbsp; Nearby Store Results &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Fresh (<24h) vs Likely &nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_CARD["&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Handover &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Verification Card &nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_CALL["&nbsp;&nbsp;&nbsp;&nbsp; Direct Chemist Call &nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_MAP["&nbsp;&nbsp;&nbsp;&nbsp; Google Maps Directions &nbsp;&nbsp;&nbsp;&nbsp;"]
     end
 
     classDef chemist fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
@@ -238,18 +238,18 @@ $$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 
 ```mermaid
 flowchart TD
-    START["Pharmacy Stock Record"] --> TIER1{"Shelf Freshness Check<br/>Was stock verified today?"}
-    TIER1 -- Yes: under 24h --> S1["Tier 1: Fresh Stock Verified<br/>+100 Points Awarded"]
-    TIER1 -- No: over 24h --> S0["Catalog Baseline<br/>+0 Points"]
+    START["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Inventory Record &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> TIER1{"&nbsp;&nbsp;&nbsp;&nbsp; Verified Today (<24h)? &nbsp;&nbsp;&nbsp;&nbsp;"}
+    TIER1 -- Yes: under 24h --> S1["&nbsp;&nbsp;&nbsp;&nbsp; Tier 1: Fresh Stock &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +100 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER1 -- No: over 24h --> S0["&nbsp;&nbsp;&nbsp;&nbsp; Catalog Baseline &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    S1 --> TIER2{"Formulation Check<br/>Authorized Generic Salt?"}
+    S1 --> TIER2{"&nbsp;&nbsp;&nbsp;&nbsp; PMBJP Generic Salt? &nbsp;&nbsp;&nbsp;&nbsp;"}
     S0 --> TIER2
-    TIER2 -- Yes: Generic --> G1["Tier 2: Generic Priority<br/>+10 Points Awarded"]
-    TIER2 -- No: Branded --> G0["Commercial Formulation<br/>+0 Points"]
+    TIER2 -- Yes: Generic --> G1["&nbsp;&nbsp;&nbsp;&nbsp; Tier 2: Generic Salt &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +10 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;"]
+    TIER2 -- No: Branded --> G0["&nbsp;&nbsp;&nbsp;&nbsp; Commercial Brand &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    G1 --> EVAL["Composite Priority Score<br/>Rank Stores in Descending Order"]
+    G1 --> EVAL["&nbsp;&nbsp;&nbsp;&nbsp; Priority Score Ranking &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Highest Score First &nbsp;&nbsp;&nbsp;&nbsp;"]
     G0 --> EVAL
-    EVAL --> TIE["Tie-Breaker Evaluation<br/>Cheapest Unit Price Ranked First"]
+    EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;"]
 
     classDef eval fill:#E3F2FD,stroke:#1565C0,color:#0D47A1,stroke-width:2px;
     classDef bonus fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
@@ -307,8 +307,8 @@ MedSetu uses a relational document model in Cloud Firestore designed for real-ti
 
 ```mermaid
 flowchart LR
-    MED["💊 medicines<br/>Master Catalog & Generic Salts"] ---|1 : N| INV["📦 store_inventory<br/>Real-Time Shelf Counts & Freshness"]
-    STORES["🏪 stores<br/>Verified Chemist Registry & GPS"] ---|1 : N| INV
+    MED["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; medicines &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Master Drug Catalog &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; store_inventory &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Live Counts & Freshness &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    STORES["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stores &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Chemist Registry & GPS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] ---|1 : N| INV
 
     classDef master fill:#E8EAF6,stroke:#3F51B5,color:#1A237E,stroke-width:2px;
     classDef stores fill:#E0F2F1,stroke:#00897B,color:#004D40,stroke-width:2px;
@@ -381,8 +381,20 @@ flutter run -d chrome
 ```
 
 > [!TIP]
-> **Simulating Location on Android Emulators**:  
-> To test proximity routing with seed stores, open Android Emulator Extended Controls (`...`) &rarr; **Location** &rarr; set Latitude: `19.0760`, Longitude: `72.8777` (Mumbai) &rarr; Click **Save/Send**.
+> **Testing Location & Seed Pharmacy Data (Mumbai Coordinates)**:  
+> The hackathon demo database includes registered Jan Aushadhi Kendras in Mumbai (`19.0760, 72.8777`). Android emulators default to Mountain View, California (`37.4220, -122.0841`), and web browsers use host IP location. To test store registration and location services with accurate local coordinates:
+>
+> * **Option A: Instant ADB Command (Fastest — 1 Second)**:
+>   ```bash
+>   adb emu geo fix 72.8777 19.0760
+>   ```
+>   *(Sets emulator GPS directly from your terminal — no GUI clicking required. Note: format is `<longitude> <latitude>`)*
+>
+> * **Option B: Emulator Toolbar (GUI)**:
+>   In the emulator side panel, click **`...` (Extended Controls)** &rarr; **Location** tab &rarr; enter **Latitude: `19.0760`**, **Longitude: `72.8777`** &rarr; click **Save / Send**.
+>
+> * **Option C: Google Chrome Web (`flutter run -d chrome`)**:
+>   Press <kbd>F12</kbd> (DevTools) &rarr; <kbd>Ctrl+Shift+P</kbd> &rarr; type `Show Sensors` &rarr; select **Mumbai** from the Location preset dropdown.
 
 ### 6. What Success Looks Like
 When the application boots, you will see the welcome screen displaying the circular MedSetu logo and two primary options:
@@ -395,35 +407,35 @@ When the application boots, you will see the welcome screen displaying the circu
 
 ```mermaid
 flowchart TD
-    WELCOME["MedSetu Welcome Screen<br/>Role Selection Gate"] -->|Tap Find Medicines| MODAL["Medical Safety Disclaimer<br/>Mandatory Consultation Acknowledgment"]
-    WELCOME -->|Tap Manage Pharmacy| GATE["Seller Gate<br/>Authentication Check"]
+    WELCOME["&nbsp;&nbsp;&nbsp;&nbsp; Welcome Screen &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Role Selection &nbsp;&nbsp;&nbsp;&nbsp;"] -->|Find Medicines| MODAL["&nbsp;&nbsp;&nbsp;&nbsp; Safety Disclaimer &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Consultation Notice &nbsp;&nbsp;&nbsp;&nbsp;"]
+    WELCOME -->|Manage Pharmacy| GATE["&nbsp;&nbsp;&nbsp;&nbsp; Seller Gatekeeper &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Auth Status Check &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    MODAL -->|Confirm Disclaimer| PS_HUB["Patient Search Hub"]
-    PS_HUB -->|Camera Capture| RX_DEC["Gemini Prescription Decoder"]
-    PS_HUB -->|Keyword Input| TXT_MATCH["Medicine Catalog Search"]
-    RX_DEC --> CHIPS["Identified Medicine Selection"]
+    MODAL -->|Acknowledge| PS_HUB["&nbsp;&nbsp;&nbsp;&nbsp; Patient Search Hub &nbsp;&nbsp;&nbsp;&nbsp;"]
+    PS_HUB -->|Camera Photo| RX_DEC["&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;"]
+    PS_HUB -->|Text Search| TXT_MATCH["&nbsp;&nbsp;&nbsp;&nbsp; Medicine Catalog &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Prefix Search &nbsp;&nbsp;&nbsp;&nbsp;"]
+    RX_DEC --> CHIPS["&nbsp;&nbsp;&nbsp;&nbsp; Detected Medicines &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Selection Chips &nbsp;&nbsp;&nbsp;&nbsp;"]
     TXT_MATCH --> CHIPS
 
-    CHIPS -->|Select Medicine| RESULTS["Store Results Screen<br/>Smart Savings Alert and Freshness Indicators"]
-    RESULTS -->|Select Store| NAV["Store Navigator Hub<br/>Pharmacist Card, Dialer, and Maps"]
+    CHIPS -->|Select Medicine| RESULTS["&nbsp;&nbsp;&nbsp;&nbsp; Store Results &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Savings & Freshness &nbsp;&nbsp;&nbsp;&nbsp;"]
+    RESULTS -->|Select Pharmacy| NAV["&nbsp;&nbsp;&nbsp;&nbsp; Store Navigator &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Card & Dial &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    GATE -->|Unauthenticated| LOGIN["Seller Login and Registration"]
-    GATE -->|Authenticated Without Store| REG["New Pharmacy Registration<br/>License, Address, Contact, and Location"]
-    GATE -->|Authenticated With Store| DASH["Seller Dashboard<br/>Sales Metrics, Low Stock, and Inventory"]
+    GATE -->|Unauthenticated| LOGIN["&nbsp;&nbsp;&nbsp;&nbsp; Chemist Login &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Email / Password &nbsp;&nbsp;&nbsp;&nbsp;"]
+    GATE -->|No Registered Store| REG["&nbsp;&nbsp;&nbsp;&nbsp; Pharmacy Setup &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; License & GPS Location &nbsp;&nbsp;&nbsp;&nbsp;"]
+    GATE -->|Store Verified| DASH["&nbsp;&nbsp;&nbsp;&nbsp; Chemist Dashboard &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Inventory Overview &nbsp;&nbsp;&nbsp;&nbsp;"]
 
     LOGIN --> DASH
     REG --> DASH
-    DASH -->|Update Stock Action| SCAN["Seller Restock Hub"]
+    DASH -->|Update Stock| SCAN["&nbsp;&nbsp;&nbsp;&nbsp; Restock Modalities &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    SCAN -->|1. Invoice Photo| MOD_INV["Camera Bill OCR"]
-    SCAN -->|2. Wholesale PDF| MOD_PDF["Wholesale PDF Parser"]
-    SCAN -->|3. Voice Mode| MOD_VOICE["AI Voice Assistant"]
-    SCAN -->|4. Barcode Scan| MOD_BC["Hardware Barcode Scanner"]
+    SCAN -->|Invoice Photo| MOD_INV["&nbsp;&nbsp;&nbsp;&nbsp; Camera Bill OCR &nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Wholesale PDF| MOD_PDF["&nbsp;&nbsp;&nbsp;&nbsp; Invoice PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Voice Input| MOD_VOICE["&nbsp;&nbsp;&nbsp;&nbsp; AI Voice Assistant &nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Barcode Scan| MOD_BC["&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    MOD_INV --> IRS["Invoice Review Sheet<br/>Human-in-the-Loop Validation"]
+    MOD_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Pre-Commit Validation &nbsp;&nbsp;&nbsp;&nbsp;"]
     MOD_PDF --> IRS
     MOD_VOICE --> IRS
-    MOD_BC -->|Direct Increment| SYNC[("Cloud Firestore<br/>Real-Time Inventory Sync")]
+    MOD_BC -->|Atomic +1 Count| SYNC[(" Cloud Firestore <br/> Real-Time Stock ")]
     IRS -->|Chemist Approval| SYNC
 
     classDef welcome fill:#ECEFF1,stroke:#455A64,color:#263238,stroke-width:2px;
