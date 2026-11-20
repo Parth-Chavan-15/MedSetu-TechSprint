@@ -113,8 +113,8 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
 
 ## 🏗️ System Architecture
 
-<details>
-<summary><b>📐 View System Architecture Diagram (Click to Expand)</b></summary>
+<details open>
+<summary><h3>📐 System Architecture & Dual-Agent Pipeline &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
 
 <br/>
 
@@ -157,17 +157,52 @@ flowchart TB
         UI_STORES --> ACT_INFO["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Address & License &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     end
 
-    classDef chemist fill:#DCFCE7,stroke:#4ADE80,color:#166534,stroke-width:2px;
-    classDef patient fill:#E0F2FE,stroke:#38BDF8,color:#0369A1,stroke-width:2px;
-    classDef ai fill:#F3E8FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
-    classDef firestore fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
-    classDef output fill:#CCFBF1,stroke:#2DD4BF,color:#115E59,stroke-width:2px;
+    classDef paper fill:#FFE4E6,stroke:#FDA4AF,color:#9F1239,stroke-width:2px;
+    classDef pdf fill:#E0F2FE,stroke:#7DD3FC,color:#0369A1,stroke-width:2px;
+    classDef voice fill:#FEF9C3,stroke:#FDE047,color:#854D0E,stroke-width:2px;
+    classDef barcode fill:#DCFCE7,stroke:#86EFAC,color:#166534,stroke-width:2px;
+    classDef scanner fill:#CFFAFE,stroke:#67E8F9,color:#0E7490,stroke-width:2px;
+    classDef review fill:#D1FAE5,stroke:#6EE7B7,color:#065F46,stroke-width:2px;
+    classDef ai1 fill:#EDE9FE,stroke:#C4B5FD,color:#5B21B6,stroke-width:2px;
+    classDef ai2 fill:#F3E8FF,stroke:#D8B4FE,color:#6B21A8,stroke-width:2px;
+    classDef ai3 fill:#FCE7F3,stroke:#F472B6,color:#9D174D,stroke-width:2px;
+    classDef ai4 fill:#E0E7FF,stroke:#A5B4FC,color:#3730A3,stroke-width:2px;
+    classDef invDb fill:#FEF3C7,stroke:#FCD34D,color:#92400E,stroke-width:2px;
+    classDef medDb fill:#E0E7FF,stroke:#818CF8,color:#312E81,stroke-width:2px;
+    classDef storeDb fill:#CCFBF1,stroke:#5EEAD4,color:#115E59,stroke-width:2px;
+    classDef rankNode fill:#FFEDD5,stroke:#FDBA74,color:#9A3412,stroke-width:2px;
+    classDef rxPhoto fill:#E0F2FE,stroke:#38BDF8,color:#075985,stroke-width:2px;
+    classDef searchTxt fill:#CFFAFE,stroke:#22D3EE,color:#0891B2,stroke-width:2px;
+    classDef matcher fill:#E0E7FF,stroke:#6366F1,color:#4338CA,stroke-width:2px;
+    classDef results fill:#DCFCE7,stroke:#4ADE80,color:#15803D,stroke-width:2px;
+    classDef actCard fill:#CCFBF1,stroke:#2DD4BF,color:#0F766E,stroke-width:2px;
+    classDef actCall fill:#FFEDD5,stroke:#FB923C,color:#C2410C,stroke-width:2px;
+    classDef actInfo fill:#F1F5F9,stroke:#94A3B8,color:#334155,stroke-width:2px;
 
-    class C_INV,C_PDF,C_VOICE,C_BC,BC_SCAN,IRS chemist;
-    class P_RX,P_TXT,MATCH patient;
-    class G_INV,G_PDF,G_NLP,G_RX ai;
-    class FS_INV,FS_MED,FS_STORES,RANK firestore;
-    class UI_STORES,ACT_CARD,ACT_CALL,ACT_INFO output;
+    class C_INV paper;
+    class G_INV ai1;
+    class C_PDF pdf;
+    class G_PDF ai2;
+    class C_VOICE voice;
+    class G_NLP ai3;
+    class C_BC barcode;
+    class BC_SCAN scanner;
+    class IRS review;
+    class FS_INV invDb;
+
+    class FS_MED medDb;
+    class FS_STORES storeDb;
+    class RANK rankNode;
+
+    class P_RX rxPhoto;
+    class G_RX ai4;
+    class P_TXT searchTxt;
+    class MATCH matcher;
+
+    class UI_STORES results;
+    class ACT_CARD actCard;
+    class ACT_CALL actCall;
+    class ACT_INFO actInfo;
 
     linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
@@ -180,8 +215,8 @@ flowchart TB
 
 <br/>
 
-<details>
-<summary><b>🔍 View detailed End-to-End Sequence Workflow (click to expand)</b></summary>
+<details open>
+<summary><h3>🔍 End-to-End Sequence Workflow &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
 
 <br/>
 
@@ -245,11 +280,11 @@ $$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 
 ```mermaid
 flowchart TD
-    START["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Inventory Record &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> TIER1{"&nbsp;&nbsp;&nbsp;&nbsp; Verified Today (<24h)? &nbsp;&nbsp;&nbsp;&nbsp;"}
+    START["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Inventory Record &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> TIER1{"&nbsp;&nbsp; Verified Today? &nbsp;&nbsp;<br/>&nbsp;&nbsp; (&lt; 24h) &nbsp;&nbsp;"}
     TIER1 -- Yes: under 24h --> S1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 1: Fresh Stock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +100 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     TIER1 -- No: over 24h --> S0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Catalog Baseline &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    S1 --> TIER2{"&nbsp;&nbsp;&nbsp;&nbsp; PMBJP Generic Salt? &nbsp;&nbsp;&nbsp;&nbsp;"}
+    S1 --> TIER2{"&nbsp;&nbsp; Generic Salt? &nbsp;&nbsp;<br/>&nbsp;&nbsp; (PMBJP) &nbsp;&nbsp;"}
     S0 --> TIER2
     TIER2 -- Yes: Generic --> G1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 2: Generic Salt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +10 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     TIER2 -- No: Branded --> G0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Brand &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
@@ -259,16 +294,24 @@ flowchart TD
     EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
     classDef startNode fill:#F1F5F9,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
-    classDef eval fill:#E0E7FF,stroke:#818CF8,color:#3730A3,stroke-width:2px;
-    classDef bonus fill:#DCFCE7,stroke:#4ADE80,color:#15803D,stroke-width:2px;
-    classDef neutral fill:#F4F4F5,stroke:#A1A1AA,color:#3F3F46,stroke-width:2px;
-    classDef rankNode fill:#FFEDD5,stroke:#FB923C,color:#9A3412,stroke-width:2px;
+    classDef tier1Node fill:#E0E7FF,stroke:#818CF8,color:#3730A3,stroke-width:2px;
+    classDef s1Node fill:#DCFCE7,stroke:#22C55E,color:#15803D,stroke-width:2px;
+    classDef s0Node fill:#F4F4F5,stroke:#A1A1AA,color:#3F3F46,stroke-width:2px;
+    classDef tier2Node fill:#CFFAFE,stroke:#06B6D4,color:#0E7490,stroke-width:2px;
+    classDef g1Node fill:#D1FAE5,stroke:#10B981,color:#065F46,stroke-width:2px;
+    classDef g0Node fill:#FAF5FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
+    classDef evalNode fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
+    classDef tieNode fill:#FFEDD5,stroke:#FB923C,color:#9A3412,stroke-width:2px;
 
     class START startNode;
-    class TIER1,TIER2 eval;
-    class S1,G1 bonus;
-    class S0,G0 neutral;
-    class EVAL,TIE rankNode;
+    class TIER1 tier1Node;
+    class S1 s1Node;
+    class S0 s0Node;
+    class TIER2 tier2Node;
+    class G1 g1Node;
+    class G0 g0Node;
+    class EVAL evalNode;
+    class TIE tieNode;
 
     linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
@@ -398,8 +441,8 @@ When the application boots, you will see the welcome screen displaying the circu
 
 ## 🧭 Application Navigation Flow
 
-<details>
-<summary><b>🧭 View Complete Application Navigation Flow (Click to Expand)</b></summary>
+<details open>
+<summary><h3>🧭 Application Navigation Flow & User Journey &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
 
 <br/>
 
@@ -408,7 +451,7 @@ flowchart TD
     WELCOME["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Welcome Screen &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Role Selection &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] -->|Find Medicines| MODAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Safety Disclaimer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Consultation Notice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     WELCOME -->|Manage Pharmacy| GATE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Seller Gatekeeper &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Auth Status Check &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    MODAL -->|Acknowledge| PS_HUB["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patient Search Hub &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    MODAL -->|Acknowledge| PS_HUB["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Patient Search Hub &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Camera or Text &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     PS_HUB -->|Camera Photo| RX_DEC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prescription Decoder &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gemini Vision AI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     PS_HUB -->|Text Search| TXT_MATCH["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Medicine Catalog &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Prefix Search &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     RX_DEC --> CHIPS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Detected Medicines &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Selection Chips &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
@@ -423,12 +466,12 @@ flowchart TD
 
     LOGIN --> DASH
     REG --> DASH
-    DASH -->|Update Stock| SCAN["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Restock Modalities &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    DASH -->|Update Stock| SCAN["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Restock Modalities &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Multi-Channel Entry &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
-    SCAN -->|Invoice Photo| MOD_INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Camera Bill OCR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Wholesale PDF| MOD_PDF["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Voice Input| MOD_VOICE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AI Voice Assistant &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    SCAN -->|Barcode Scan| MOD_BC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Invoice Photo| MOD_INV["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Camera Bill OCR &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Paper Invoices &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Wholesale PDF| MOD_PDF["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice PDF Parser &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Wholesale Digital Bills &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Voice Input| MOD_VOICE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AI Voice Assistant &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Natural Speech NLP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    SCAN -->|Barcode Scan| MOD_BC["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Barcode Scanner &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Blister Pack Restock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
 
     MOD_INV --> IRS["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Invoice Review Sheet &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pre-Commit Validation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
     MOD_PDF --> IRS
@@ -436,17 +479,45 @@ flowchart TD
     MOD_BC -->|Atomic +1 Count| SYNC[(" Cloud Firestore <br/> Real-Time Stock ")]
     IRS -->|Chemist Approval| SYNC
 
-    classDef welcome fill:#F1F5F9,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
-    classDef patient fill:#E0F2FE,stroke:#38BDF8,color:#0369A1,stroke-width:2px;
-    classDef chemist fill:#DCFCE7,stroke:#4ADE80,color:#166534,stroke-width:2px;
-    classDef ai fill:#F3E8FF,stroke:#C084FC,color:#6B21A8,stroke-width:2px;
-    classDef sync fill:#FEF3C7,stroke:#FBBF24,color:#92400E,stroke-width:2px;
+    classDef welcomeNode fill:#F8FAFC,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
+    classDef modalNode fill:#FFE4E6,stroke:#FDA4AF,color:#9F1239,stroke-width:2px;
+    classDef gateNode fill:#EEF2FF,stroke:#A5B4FC,color:#3730A3,stroke-width:2px;
+    classDef hubNode fill:#E0F2FE,stroke:#7DD3FC,color:#0369A1,stroke-width:2px;
+    classDef rxNode fill:#EDE9FE,stroke:#C4B5FD,color:#5B21B6,stroke-width:2px;
+    classDef txtNode fill:#CFFAFE,stroke:#67E8F9,color:#0E7490,stroke-width:2px;
+    classDef chipNode fill:#E0E7FF,stroke:#818CF8,color:#312E81,stroke-width:2px;
+    classDef resultsNode fill:#DCFCE7,stroke:#86EFAC,color:#166534,stroke-width:2px;
+    classDef navNode fill:#CCFBF1,stroke:#5EEAD4,color:#115E59,stroke-width:2px;
+    classDef loginNode fill:#FEF3C7,stroke:#FCD34D,color:#92400E,stroke-width:2px;
+    classDef regNode fill:#FFEDD5,stroke:#FDBA74,color:#9A3412,stroke-width:2px;
+    classDef dashNode fill:#D1FAE5,stroke:#6EE7B7,color:#065F46,stroke-width:2px;
+    classDef scanNode fill:#FEF9C3,stroke:#FDE047,color:#854D0E,stroke-width:2px;
+    classDef invMod fill:#FCE7F3,stroke:#F472B6,color:#9D174D,stroke-width:2px;
+    classDef pdfMod fill:#E0F7FA,stroke:#4DD0E1,color:#006064,stroke-width:2px;
+    classDef voiceMod fill:#FFE0B2,stroke:#FFB74D,color:#E65100,stroke-width:2px;
+    classDef bcMod fill:#E8F5E9,stroke:#81C784,color:#1B5E20,stroke-width:2px;
+    classDef irsNode fill:#F1F5F9,stroke:#94A3B8,color:#334155,stroke-width:2px;
+    classDef syncNode fill:#FFFBEB,stroke:#F59E0B,color:#78350F,stroke-width:2px;
 
-    class WELCOME,MODAL welcome;
-    class PS_HUB,CHIPS,RESULTS,NAV,TXT_MATCH patient;
-    class GATE,LOGIN,REG,DASH,SCAN,IRS chemist;
-    class RX_DEC,MOD_INV,MOD_PDF,MOD_VOICE,MOD_BC ai;
-    class SYNC sync;
+    class WELCOME welcomeNode;
+    class MODAL modalNode;
+    class GATE gateNode;
+    class PS_HUB hubNode;
+    class RX_DEC rxNode;
+    class TXT_MATCH txtNode;
+    class CHIPS chipNode;
+    class RESULTS resultsNode;
+    class NAV navNode;
+    class LOGIN loginNode;
+    class REG regNode;
+    class DASH dashNode;
+    class SCAN scanNode;
+    class MOD_INV invMod;
+    class MOD_PDF pdfMod;
+    class MOD_VOICE voiceMod;
+    class MOD_BC bcMod;
+    class IRS irsNode;
+    class SYNC syncNode;
 
     linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
