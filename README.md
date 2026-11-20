@@ -13,7 +13,7 @@
     <a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white" alt="Dart" /></a>
     <a href="https://ai.google.dev"><img src="https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" /></a>
     <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/Firebase-Firestore_%26_Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" /></a>
-    <a href="https://developers.google.com/maps"><img src="https://img.shields.io/badge/Google_Maps-Geo_Routing-4285F4?style=for-the-badge&logo=googlemaps&logoColor=white" alt="Google Maps" /></a>
+    <a href="https://pub.dev/packages/geolocator"><img src="https://img.shields.io/badge/Geolocator-GPS_Location-34A853?style=for-the-badge&logo=googlemaps&logoColor=white" alt="GPS Location" /></a>
   </p>
 
   <p align="center">
@@ -107,7 +107,7 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
   * 🟡 **Likely Available (≥24h)**: Baseline catalog listing without same-day chemist confirmation. Patients are encouraged to call ahead.
 * **🤝 The Pharmacist Card (Liability Shield)**: An in-app handover screen designed for counter presentation to licensed chemists:
   > *"Hello Pharmacist, please verify if [Generic Salt] is a valid substitute for [Prescribed Brand] prescribed here."*
-* **🗺️ One-Tap Navigation & Direct Calling**: Embedded pharmacy contact card with direct phone calling and native Google Maps navigation.
+* **📞 One-Tap Chemist Contact**: Embedded pharmacy contact card with direct phone calling to verify stock before traveling.
 
 ---
 
@@ -149,7 +149,7 @@ flowchart TB
         RANK --> UI_STORES["&nbsp;&nbsp;&nbsp;&nbsp; Nearby Store Results &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Fresh (<24h) vs Likely &nbsp;&nbsp;&nbsp;&nbsp;"]
         UI_STORES --> ACT_CARD["&nbsp;&nbsp;&nbsp;&nbsp; Pharmacist Handover &nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp; Verification Card &nbsp;&nbsp;&nbsp;&nbsp;"]
         UI_STORES --> ACT_CALL["&nbsp;&nbsp;&nbsp;&nbsp; Direct Chemist Call &nbsp;&nbsp;&nbsp;&nbsp;"]
-        UI_STORES --> ACT_MAP["&nbsp;&nbsp;&nbsp;&nbsp; Google Maps Directions &nbsp;&nbsp;&nbsp;&nbsp;"]
+        UI_STORES --> ACT_INFO["&nbsp;&nbsp;&nbsp;&nbsp; Store Address & License &nbsp;&nbsp;&nbsp;&nbsp;"]
     end
 
     classDef chemist fill:#E8F5E9,stroke:#2E7D32,color:#1B5E20,stroke-width:2px;
@@ -162,7 +162,7 @@ flowchart TB
     class P_RX,P_TXT,MATCH patient;
     class G_INV,G_PDF,G_NLP,G_RX ai;
     class FS_INV,FS_MED,FS_STORES,RANK firestore;
-    class UI_STORES,ACT_CARD,ACT_CALL,ACT_MAP output;
+    class UI_STORES,ACT_CARD,ACT_CALL,ACT_INFO output;
 
     linkStyle default stroke:#78909C,stroke-width:2px;
 ```
@@ -186,7 +186,7 @@ sequenceDiagram
     participant App as MedSetu App
     participant Gemini as Google Gemini
     participant Firestore as Cloud Firestore
-    participant Maps as Phone or Maps
+    participant Phone as Phone Dialer
 
     Note over Chemist, Firestore: Supply Side: Rapid Multimodal Inventory Ingestion
     alt Invoice Photo or Wholesale PDF
@@ -208,7 +208,7 @@ sequenceDiagram
         App->>Firestore: Executes atomic plus-one stock increment
     end
 
-    Note over Patient, Maps: Demand Side: Prescription Decoding and Verified Routing
+    Note over Patient, Phone: Demand Side: Prescription Decoding and Verified Routing
     Patient->>App: Uploads handwritten doctor prescription
     App->>Gemini: Analyzes image and filters non-drug text
     Gemini-->>App: Returns clean list of medicine names
@@ -219,7 +219,7 @@ sequenceDiagram
     App-->>Patient: Displays prioritized stores with cost savings
     Patient->>App: Selects verified pharmacy
     App->>Patient: Displays Pharmacist Card for counter verification
-    Patient->>Maps: One-tap call chemist or launch Google Maps navigation
+    Patient->>Phone: One-tap call chemist to confirm availability
 ```
 
 </details>
@@ -380,22 +380,6 @@ flutter run
 flutter run -d chrome
 ```
 
-> [!TIP]
-> **Testing Location & Seed Pharmacy Data (Mumbai Coordinates)**:  
-> The hackathon demo database includes registered Jan Aushadhi Kendras in Mumbai (`19.0760, 72.8777`). Android emulators default to Mountain View, California (`37.4220, -122.0841`), and web browsers use host IP location. To test store registration and location services with accurate local coordinates:
->
-> * **Option A: Instant ADB Command (Fastest — 1 Second)**:
->   ```bash
->   adb emu geo fix 72.8777 19.0760
->   ```
->   *(Sets emulator GPS directly from your terminal — no GUI clicking required. Note: format is `<longitude> <latitude>`)*
->
-> * **Option B: Emulator Toolbar (GUI)**:
->   In the emulator side panel, click **`...` (Extended Controls)** &rarr; **Location** tab &rarr; enter **Latitude: `19.0760`**, **Longitude: `72.8777`** &rarr; click **Save / Send**.
->
-> * **Option C: Google Chrome Web (`flutter run -d chrome`)**:
->   Press <kbd>F12</kbd> (DevTools) &rarr; <kbd>Ctrl+Shift+P</kbd> &rarr; type `Show Sensors` &rarr; select **Mumbai** from the Location preset dropdown.
-
 ### 6. What Success Looks Like
 When the application boots, you will see the welcome screen displaying the circular MedSetu logo and two primary options:
 * **Find Medicines**: Opens the patient prescription scanner and generic medicine directory.
@@ -465,7 +449,7 @@ flowchart TD
 | **Backend & Cloud Database** | Google Cloud Firestore, Firebase Storage | Low-latency document storage, real-time sync, and asset persistence |
 | **Authentication** | Firebase Auth | Role-gated chemist authentication and secure user sessions |
 | **Hardware & Scanning** | `flutter_barcode_scanner`, `image_picker`, `file_picker` | Blister pack barcode reading, camera document captures, and PDF ingestion |
-| **Geo & Communication** | `geolocator`, Google Maps API, `url_launcher` | Distance-based store sorting, phone dialer integration, and map navigation |
+| **Geo & Communication** | `geolocator`, `url_launcher` | Chemist GPS coordinate capture, phone dialer integration, and external launching |
 
 ---
 
