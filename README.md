@@ -21,15 +21,15 @@
   </p>
 
   <p align="center">
-    <a href="#-the-problem-the-ghost-stock-reality">The Problem</a> •
-    <a href="#-the-medsetu-dual-agent-solution">The Solution</a> •
-    <a href="#-key-capabilities">Key Capabilities</a> •
-    <a href="#-system-architecture">Architecture</a> •
-    <a href="#-algorithmic-intelligence-priority-ranking">Ranking Engine</a> •
-    <a href="#-medical-liability--safety-protocols">Safety Protocols</a> •
-    <a href="#-data-architecture--synchronization">Data Model</a> •
-    <a href="#-quick-start">Quick Start</a> •
-    <a href="#-application-navigation-flow">Navigation Flow</a>
+    <a href="#the-problem-the-ghost-stock-reality">The Problem</a> •
+    <a href="#the-medsetu-dual-agent-solution">The Solution</a> •
+    <a href="#key-capabilities">Key Capabilities</a> •
+    <a href="#system-architecture">Architecture</a> •
+    <a href="#algorithmic-intelligence-priority-ranking">Ranking Engine</a> •
+    <a href="#medical-liability--safety-protocols">Safety Protocols</a> •
+    <a href="#data-architecture--synchronization">Data Model</a> •
+    <a href="#quick-start">Quick Start</a> •
+    <a href="#application-navigation-flow">Navigation Flow</a>
   </p>
 
 </div>
@@ -113,8 +113,16 @@ Engineered for citizens, elderly patients, and caregivers seeking reliable, affo
 
 ## 🏗️ System Architecture
 
-<details open>
-<summary><h3>📐 System Architecture & Dual-Agent Pipeline &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
+MedSetu operates on a decoupled dual-agent architecture separating supply ingestion from demand discovery, synchronized in real time through Cloud Firestore:
+
+| Subsystem | Primary Input Modalities | Processing Engine | Target Datastore / Output |
+| :--- | :--- | :--- | :--- |
+| **Chemist Supply Ingestion** | Paper invoices, digital PDFs, spoken restock, blister barcodes | Gemini 2.5 Flash Vision & NLP + Chemist Review Sheet | `store_inventory` (live stock records) |
+| **Catalog & Freshness Pipeline** | Master generic drug registry & registered chemist coordinates | Real-time bio-equivalent matching & shelf freshness scoring | Dynamic priority scores & availability badges |
+| **Patient Demand Discovery** | Handwritten prescription photos, manual medicine search | Gemini Vision OCR + bio-equivalent generic substitution | Verified store list & Pharmacist Handover Card |
+
+<details>
+<summary><b>📐 View Interactive System Architecture Diagram</b></summary>
 
 <br/>
 
@@ -215,8 +223,8 @@ flowchart TB
 
 <br/>
 
-<details open>
-<summary><h3>🔍 End-to-End Sequence Workflow &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
+<details>
+<summary><b>🔍 View End-to-End Sequence Workflow</b></summary>
 
 <br/>
 
@@ -441,8 +449,13 @@ When the application boots, you will see the welcome screen displaying the circu
 
 ## 🧭 Application Navigation Flow
 
-<details open>
-<summary><h3>🧭 Application Navigation Flow & User Journey &nbsp;<code>[Click to Collapse / Expand]</code></h3></summary>
+MedSetu implements a deterministic, state-driven navigation architecture separating the patient journey from the chemist administrative workflow:
+
+* **Patient Discovery Journey**: Welcome Screen &rarr; Safety Disclaimer Modal &rarr; Search Hub (Prescription Vision AI or Master Catalog Prefix Search) &rarr; Detected Salt Selection Chips &rarr; Verified Pharmacy Results &rarr; Store Navigator (Pharmacist Handover Card & Chemist Call).
+* **Chemist Restock Journey**: Welcome Screen &rarr; Seller Gatekeeper &rarr; Authentication / Store Registration &rarr; Chemist Dashboard &rarr; Restock Modalities (Camera OCR, Wholesale PDF, Voice Dictation, Barcode Scan) &rarr; Pre-Commit Review Sheet &rarr; Cloud Firestore Stock Sync.
+
+<details>
+<summary><b>🧭 View Complete Application Navigation Flowchart</b></summary>
 
 <br/>
 
