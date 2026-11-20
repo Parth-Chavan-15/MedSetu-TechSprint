@@ -38,24 +38,30 @@
 
 ## 🚨 The Problem: The "Ghost Stock" Reality
 
-Healthcare expenses push an estimated 55 million Indian citizens into poverty each year. To combat this crisis, the Government of India established the **Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)**, opening thousands of special Kendras that dispense certified generic medicines at **50% to 90% cheaper rates** than commercial brands.
+Under the Government of India’s **Pradhan Mantri Bhartiya Janaushadhi Pariyojana (PMBJP)**, authorized Kendras provide certified generic medicines at **50% to 90% cheaper rates** than commercial brands.
 
-Despite this nationwide initiative, millions of families still buy expensive branded drugs out-of-pocket because the supply chain fails at the critical "last mile":
+Despite this nationwide initiative, millions of citizens still buy costly branded drugs out-of-pocket because the supply chain fails at the critical "last mile":
 
 ```mermaid
 flowchart LR
-    RX["Doctor Prescription<br/>Handwritten Shorthand"] -->|Illegible Brand Name| PATIENT["Patient<br/>Unaware of Generic Salt"]
-    PATIENT -->|Travels Miles to Kendra| STORE["Jan Aushadhi Kendra<br/>Empty Shelves: Ghost Stock"]
-    DB["Central Government Portal<br/>Falsely Reports In Stock"] -->|Out of Sync with Reality| STORE
-    STORE -->|Desperation Purchase| RETAIL["Commercial Chemist<br/>Full Out-of-Pocket Expense"]
+    RX["👨‍⚕️ Doctor Prescription<br/>Handwritten Shorthand"] -->|Illegible Brand| PATIENT["🧑‍🦳 Confused Patient<br/>Unaware of Generic Salt"]
+    PATIENT -->|Travels to Kendra| KENDRA["🏥 Jan Aushadhi Kendra<br/>Empty Shelves: Ghost Stock"]
+    PORTAL["🏛️ Central Portal<br/>Reports Catalog In Stock"] -->|Out of Sync| KENDRA
+    KENDRA -->|Urgent Need| RETAIL["💊 Commercial Chemist<br/>Full Retail Out-of-Pocket"]
 
-    classDef redNode fill:#FFEBEE,stroke:#D32F2F,color:#B71C1C,stroke-width:2px;
-    classDef warnNode fill:#FFF3E0,stroke:#F57C00,color:#E65100,stroke-width:2px;
+    classDef clinic fill:#E1F5FE,stroke:#0288D1,color:#01579B,stroke-width:2px;
+    classDef patient fill:#FFF8E1,stroke:#FFA000,color:#E65100,stroke-width:2px;
+    classDef portal fill:#ECEFF1,stroke:#607D8B,color:#263238,stroke-width:2px;
+    classDef kendra fill:#FFEBEE,stroke:#E53935,color:#B71C1C,stroke-width:2px;
+    classDef retail fill:#EDE7F6,stroke:#7E57C2,color:#4527A0,stroke-width:2px;
 
-    class RX,DB,STORE,RETAIL redNode;
-    class PATIENT warnNode;
+    class RX clinic;
+    class PATIENT patient;
+    class PORTAL portal;
+    class KENDRA kendra;
+    class RETAIL retail;
 
-    linkStyle default stroke:#E57373,stroke-width:2px;
+    linkStyle default stroke:#78909C,stroke-width:2px;
 ```
 
 1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry into legacy desktop ERPs. Physical shelves run dry, while central portals continue reporting false availability.
