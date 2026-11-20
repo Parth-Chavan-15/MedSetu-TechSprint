@@ -64,9 +64,9 @@ flowchart LR
     linkStyle default stroke:#94A3B8,stroke-width:2px;
 ```
 
-1. **The "Ghost Stock" Paradox**: Government directories assume local pharmacies carry catalog items. In reality, independent pharmacists are overwhelmed by counter sales and lack the time or tools for cumbersome manual database entry into legacy desktop ERPs. Physical shelves run dry, while central portals continue reporting false availability.
-2. **The Handwriting & Brand Shorthand Barrier**: Prescriptions are written in hurried doctor shorthand using commercial brand names (such as *Augmentin 625*, *Dolo 650*, or *Pan-D*). Patients have no accessible way to decode these into active generic chemical formulations (such as *Amoxicillin + Clavulanic Acid* or *Paracetamol 650mg*).
-3. **Wasted Journeys & Desperation Purchases**: Patients travel miles across town to a Jan Aushadhi Kendra, only to find the medicine out of stock. In urgent medical distress, they walk into a nearby retail chemist and pay full market price out-of-pocket.
+1. **The "Ghost Stock" Paradox**: Independent pharmacists lack time for complex desktop ERPs. Central portals report items "in stock" while physical shelves run dry.
+2. **The Handwriting & Brand Barrier**: Hurried doctor shorthand using commercial brand names (*Augmentin 625*, *Dolo 650*, *Pan-D*) conceals active generic chemical formulations from patients.
+3. **Wasted Trips & Out-of-Pocket Expense**: Patients travel miles to an out-of-stock Jan Aushadhi Kendra, only to make desperation purchases at nearby private retail chemists at full commercial price.
 
 ---
 
@@ -87,27 +87,24 @@ MedSetu replaces passive, out-of-date directories with an **AI-driven real-time 
 ## ✨ Key Capabilities
 
 ### 🏪 1. The Chemist Agent (Zero-Friction Supply Ingestion)
-Engineered for busy local pharmacists and Jan Aushadhi Kendra operators who cannot spend hours typing data.
+Engineered for local pharmacists and Jan Aushadhi Kendra operators who cannot spend hours on manual data entry.
 
-* **📸 Distributor Paper Bill OCR**: Snap a quick photo of a wholesale paper invoice. Google Gemini Vision extracts medicine names and quantities into structured data in seconds.
-* **📄 Wholesale PDF Ingestion**: Directly upload digital distributor invoice PDFs to parse multi-item wholesale deliveries in a single tap without manual typing.
-* **🎙️ Voice-to-Ledger Dictation**: Tap the microphone and speak naturally (e.g., *"Received 50 strips of Metformin 500mg and 20 bottles of Cetirizine"*). The NLP engine parses quantities and automatically corrects Indian pharmaceutical phonetic spellings.
-* **📦 Blister Pack Barcode Restocking**: Integrated camera barcode scanner reads medicine cartons and blister packs, performing atomic quantity increments in Cloud Firestore with instant haptic feedback.
-* **🧑‍💻 Human-in-the-Loop Review Sheet**: Prevents AI extraction inaccuracies from touching production inventory. Chemists review, adjust quantities, and remove items on an interactive bottom sheet before confirming updates.
+* **📸 Distributor Paper Bill OCR**: Snap wholesale paper invoices; Gemini Vision extracts medicine names, quantities, and strengths into structured records in seconds.
+* **📄 Wholesale PDF Ingestion**: Directly upload digital distributor invoice PDFs to batch-restock wholesale deliveries in a single tap.
+* **🎙️ Voice-to-Ledger Dictation**: Dictate restock shipments naturally (e.g., *"Received 50 strips of Metformin 500mg"*); Gemini parses quantities and corrects phonetic Indian drug names.
+* **📦 Blister Pack Barcode Scanner**: Scan carton and strip barcodes for atomic inventory increments in Cloud Firestore with instant haptic feedback.
+* **🧑‍💻 Pre-Commit Review Sheet**: Chemists inspect, modify quantities, and approve staged AI extractions on an interactive bottom sheet before updating production stock.
 
 ---
 
 ### 🧑‍🦳 2. The Patient Agent (Intelligent Demand & Safe Discovery)
-Engineered for citizens, elderly patients, and caregivers seeking reliable, affordable medicines.
+Engineered for citizens, elderly patients, and caregivers seeking affordable, verified medicines.
 
-* **👁️ Handwritten Prescription Decoder**: Upload a photo of a doctor's prescription. Gemini Vision OCR identifies brand and generic medications while filtering out handwriting artifacts, frequencies, and dosage noise.
-* **🔄 Automatic Generic Substitution & Price Comparison**: Cross-references prescribed commercial brands with bio-equivalent Jan Aushadhi generic salts, displaying transparent cost savings in ₹.
-* **🟢 Real-Time Shelf Freshness Verification**:
-  * 🟢 **Verified Fresh Stock (<24h)**: Stock verified on shelves today via distributor bill OCR, PDF, voice, or barcode. Zero ghost-stock risk.
-  * 🟡 **Likely Available (≥24h)**: Baseline catalog listing without same-day chemist confirmation. Patients are encouraged to call ahead.
-* **🤝 The Pharmacist Card (Liability Shield)**: An in-app handover screen designed for counter presentation to licensed chemists:
-  > *"Hello Pharmacist, please verify if [Generic Salt] is a valid substitute for [Prescribed Brand] prescribed here."*
-* **📞 One-Tap Chemist Contact**: Embedded pharmacy contact card with direct phone calling to verify stock before traveling.
+* **👁️ Prescription AI Decoder**: Upload handwritten prescriptions; Gemini Vision decodes doctor handwriting, filters out non-medication notes, and isolates prescribed drugs.
+* **🔄 Generic Substitution & Savings**: Maps prescribed commercial brands to bio-equivalent PMBJP generic salts with direct side-by-side cost comparisons in ₹.
+* **🟢 Real-Time Shelf Freshness**: Clearly separates 🟢 **Verified Fresh Stock (<24h)** (restocked today via OCR/voice/barcode) from 🟡 **Likely Available (≥24h)**.
+* **🤝 The Pharmacist Handover Card**: An in-app counter verification token asking the licensed chemist to validate generic substitution before dispensing Schedule H/H1 drugs.
+* **📞 One-Tap Chemist Contact**: Integrated pharmacy phone dialer to verify availability before making a physical journey.
 
 ---
 
@@ -121,7 +118,7 @@ MedSetu operates on a decoupled dual-agent architecture separating supply ingest
 | **Catalog & Freshness Pipeline** | Master generic drug registry & registered chemist coordinates | Real-time bio-equivalent matching & shelf freshness scoring | Dynamic priority scores & availability badges |
 | **Patient Demand Discovery** | Handwritten prescription photos, manual medicine search | Gemini Vision OCR + bio-equivalent generic substitution | Verified store list & Pharmacist Handover Card |
 
-<details>
+<details open>
 <summary><b>📐 View Interactive System Architecture Diagram</b></summary>
 
 <br/>
@@ -287,19 +284,28 @@ $$\text{Tie-Breaker} = \min(\text{Unit Price})$$
 ### Priority Evaluation Pipeline
 
 ```mermaid
-flowchart TD
-    START["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Store Inventory Record &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"] --> TIER1{"&nbsp;&nbsp; Verified Today? &nbsp;&nbsp;<br/>&nbsp;&nbsp; (&lt; 24h) &nbsp;&nbsp;"}
-    TIER1 -- Yes: under 24h --> S1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 1: Fresh Stock &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +100 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    TIER1 -- No: over 24h --> S0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Catalog Baseline &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+flowchart LR
+    subgraph Stage1["1. Shelf Freshness Tier"]
+        direction TB
+        START["Store Inventory<br/>Record"] --> TIER1{"Verified Today?<br/>(&lt; 24h)"}
+        TIER1 -->|Yes: under 24h| S1["Tier 1: Fresh Stock<br/>+100 Points"]
+        TIER1 -->|No: over 24h| S0["Catalog Baseline<br/>+0 Points"]
+    end
 
-    S1 --> TIER2{"&nbsp;&nbsp; Generic Salt? &nbsp;&nbsp;<br/>&nbsp;&nbsp; (PMBJP) &nbsp;&nbsp;"}
-    S0 --> TIER2
-    TIER2 -- Yes: Generic --> G1["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Tier 2: Generic Salt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +10 Points Awarded &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    TIER2 -- No: Branded --> G0["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Commercial Brand &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +0 Points &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    subgraph Stage2["2. Generic Preference Tier"]
+        direction TB
+        S1 --> TIER2{"PMBJP Generic?<br/>Active Salt"}
+        S0 --> TIER2
+        TIER2 -->|Yes: Generic| G1["Tier 2: Generic<br/>+10 Points"]
+        TIER2 -->|No: Branded| G0["Commercial Brand<br/>+0 Points"]
+    end
 
-    G1 --> EVAL["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Priority Score Ranking &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Highest Score First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
-    G0 --> EVAL
-    EVAL --> TIE["&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Price Tie-Breaker &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Lowest Unit Price First &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+    subgraph Stage3["3. Scoring & Tie-Breaker"]
+        direction TB
+        G1 --> EVAL["Priority Ranking<br/>Highest Score First"]
+        G0 --> EVAL
+        EVAL --> TIE["Price Tie-Breaker<br/>Lowest Unit Price"]
+    end
 
     classDef startNode fill:#F1F5F9,stroke:#94A3B8,color:#1E293B,stroke-width:2px;
     classDef tier1Node fill:#E0E7FF,stroke:#818CF8,color:#3730A3,stroke-width:2px;
@@ -351,13 +357,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **1. Mandatory Gate Modal** | First-launch acknowledgment dialog | Mandates explicit user confirmation: *"Always verify medicines with a registered Pharmacist before purchase."* |
 | **2. The Pharmacist Card** | In-app counter presentation token | Hands substitution authority to licensed chemists before dispensing Schedule H/H1 drugs. |
-| **3. Chemist Review Gate** | Interactive pre-commit review sheet | Prevents unverified AI vision or voice extractions from touching live database records without human sign-off. |
-
-1. **Mandatory Launch Disclaimer**: Users must explicitly acknowledge:  
-   `"Always verify medicines with a registered Pharmacist before purchase."`
-2. **The Counter Handshake Card**: Before traveling, the app generates a dedicated handover token:  
-   `"Hello Pharmacist, please verify if [Generic Salt] is a valid substitute for [Prescribed Brand] prescribed here."`
-3. **Chemist Review Gate**: AI vision and voice extractions are never written directly to the database; they populate an interactive editable sheet requiring human validation.
+| **3. Chemist Review Gate** | Interactive pre-commit review sheet | Prevents unverified AI extractions from touching live database records without human pharmacist sign-off. |
 
 ---
 
@@ -396,54 +396,39 @@ flowchart LR
 
 ## 🚦 Quick Start
 
-Follow these steps to run MedSetu on your development machine or mobile device.
-
 ### 1. Prerequisites
-Ensure you have the following installed on your system:
 * **Flutter SDK**: `3.x` (Dart SDK `>= 3.0.0 < 4.0.0` from [flutter.dev](https://docs.flutter.dev/get-started/install))
-* **Android Studio**: With Android SDK 35 installed (or Xcode if running on macOS for iOS)
-* **Google AI Studio API Key**: A free Gemini API key from [aistudio.google.com](https://aistudio.google.com/)
+* **Android Studio**: Android SDK 35 (or Xcode on macOS)
+* **Google Gemini API Key**: Free key from [aistudio.google.com](https://aistudio.google.com/)
 
-### 2. Clone the Repository
+### 2. Clone & Install
 ```bash
 git clone https://github.com/Parth-Chavan-15/MedSetu-TechSprint.git
 cd MedSetu-TechSprint
-```
-
-### 3. Install Packages
-Install all Flutter and Dart package dependencies:
-```bash
 flutter pub get
 ```
 
-### 4. Configure Google Gemini API Key
-MedSetu uses Google Gemini 2.5 Flash for prescription vision decoding, invoice OCR, and voice parsing. Add your API key in the client configuration files:
-
-| Target File | Configuration Parameter | Purpose |
-| :--- | :--- | :--- |
-| `lib/backend/gemini/gemini.dart` | `_kGeminiApiKey = 'YOUR_KEY'` | Client SDK initialization for generative vision and text |
-| `lib/backend/api_requests/api_calls.dart` | `'x-goog-api-key': 'YOUR_KEY'` | REST API headers for prescription, invoice, and voice pipelines |
+### 3. Configure Gemini API Key
+Add your Gemini API key to client configuration files:
+* `lib/backend/gemini/gemini.dart` &rarr; `_kGeminiApiKey = 'YOUR_KEY'`
+* `lib/backend/api_requests/api_calls.dart` &rarr; `'x-goog-api-key': 'YOUR_KEY'`
 
 > [!NOTE]
-> Pre-configured Firebase settings (`android/app/google-services.json` and `ios/Runner/GoogleService-Info.plist`) are already bundled in the repository for testing with the live hackathon database.
+> Pre-configured Firebase settings (`google-services.json` and `GoogleService-Info.plist`) are bundled in the repository for live hackathon testing.
 
-### 5. Launch the Application
+### 4. Launch the App
 ```bash
-# Clean cached build artifacts
-flutter clean
-flutter pub get
-
-# Launch on connected Android emulator or physical device
+# Launch on connected Android device/emulator
 flutter run
 
 # Or launch on Google Chrome
 flutter run -d chrome
 ```
 
-### 6. What Success Looks Like
-When the application boots, you will see the welcome screen displaying the circular MedSetu logo and two primary options:
-* **Find Medicines**: Opens the patient prescription scanner and generic medicine directory.
-* **Manage Pharmacy**: Opens the chemist authentication portal and inventory restocking dashboard.
+### 5. What Success Looks Like
+When the app launches, you will see the MedSetu welcome screen with two primary workflows:
+* **Find Medicines**: Patient prescription scanner, generic salt matcher, and availability directory.
+* **Manage Pharmacy**: Chemist authentication portal and multimodal inventory restocking dashboard.
 
 ---
 
